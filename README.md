@@ -7,6 +7,7 @@ Whispr is a medical profile app - compile all relevant medical history in one pl
  - Node 11.0.0
  - Rails 6.0.0
  - Ruby 2.6.3p62 (2019-04-16 revision 67580)
+ - Yarn 1.19.0
 
 ## Getting Started
 
