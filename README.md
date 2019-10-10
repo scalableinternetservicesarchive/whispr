@@ -5,6 +5,7 @@ Whispr is a medical profile app - compile all relevant medical history in one pl
 ## Prerequisites
 
  - Node 11.0.0
+ - Postgres 11.1
  - Rails 6.0.0
  - Ruby 2.6.3p62 (2019-04-16 revision 67580)
  - Yarn 1.19.0
@@ -12,7 +13,8 @@ Whispr is a medical profile app - compile all relevant medical history in one pl
 ## Getting Started
 
 1. Run `bundle install` to install necessary packages.
-2. Run `rails server` to spin up the app locally. It will be exposed at http://127.0.0.1:3000.
+2. Run `rake db:setup` to setup Postgres.
+3. Run `rails server` to spin up the app locally. It will be exposed at http://127.0.0.1:3000.
 
 ## Testing
 

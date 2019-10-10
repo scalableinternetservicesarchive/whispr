@@ -1,9 +1,8 @@
+# Ignore VS Code files
+.vscode/*
+
 # Ignore bundler config.
 /.bundle
-
-# Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -20,9 +19,6 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-
-# Ignore VS Code files
-.vscode/*
 
 /public/packs
 /public/packs-test
