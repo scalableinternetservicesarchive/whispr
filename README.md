@@ -2,7 +2,7 @@
 
 whispr
 ========================
-Whispr is a medical profile app - compile all relevant medical history in one place, with a convenient way to send it to healtchare providers, and have them add in new information in real-time.
+Whispr is a medical profile app - compile all relevant medical history in one place, with a convenient way to send it to health care providers, and have them add in new information in real-time.
 
 ## Prerequisites
 
