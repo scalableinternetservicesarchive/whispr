@@ -1,0 +1,130 @@
+#!/bin/bash
+# :: run
+################################################
+# Quality-of-life tooling for the repo.
+# Think of it like npm scripts, but via bash.
+################################################
+# :: Created By: Benji Brandt <benjibrandt@ucla.edu>
+# :: Creation Date: 10 October 2019
+
+##############################################
+# CONSTANTS
+##############################################
+readonly USAGE_MSG="~~~\n\
+run is a utility to speed up work.\n\
+Think of it like \`npm run\`, but via bash.\n\
+~~~\n\
+The only valid options, at present, are:\n\
+\t1) b|build: builds the docker containers for a local instance of the app.\n\
+\t2) s|start: starts the local version of the app. Equivalent to \'docker-compose up\'. Must have run --build first, or a failure will occur.\n\
+\t3) h|halt|stop: stop the local version of the app. Equivalent to \'docker-compose down\'.
+\t4) t|tidy: does a light-touch clean of some dependencies, leaving Docker volumes intact.
+\t5) c|clean: does a full-blown clean of the setup, removing everything brought in by build and start.
+\t6) u|usage: display this usage message.\n\
+\n\
+"
+
+##############################################
+# ARGUMENT PARSING
+##############################################
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+case $key in
+    b|build)
+      BUILD=true
+      option_set=true
+      shift # past argument
+    ;;
+    s|start)
+      START=true
+      option_set=true
+      shift
+    ;;
+    h|halt|stop)
+      HALT=true
+      option_set=true
+      shift
+    ;;
+    t|tidy)
+      TIDY=true
+      option_set=true
+      shift
+    ;;
+    c|clean)
+        CLEAN=1
+        option_set=true
+        shift
+    ;;
+    u|usage)
+      printf "$USAGE_MSG"
+      exit 0
+    ;;
+    *) # unknown option
+        printf "$1 is an invalid option.\n"
+        exit 1
+    ;;
+esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+##############################################
+# FUNCTIONS
+##############################################
+
+exit_if_cmd_conflicts_with_start ()
+{
+    if ! [[ -z ${CLEAN} ]] || ! [[ -z ${TIDY} ]] || ! [[ -z ${HALT} ]]; then
+        ! [[ -z ${CLEAN} ]] && offender="clean" || ! [[ -z ${TIDY} ]] && offender="tidy" || offender="stop"
+        echo "The start option cannot be specified with $offender. Please rethink your command and try again."
+        exit 1
+    fi
+}
+
+##############################################
+# MAIN
+##############################################
+
+main ()
+{
+    if [[ -z ${option_set} ]]; then
+        echo "You must specify a valid option to use run."
+        printf "$USAGE_MSG"
+        exit 1
+    fi
+
+    if ! [[ -z ${BUILD} ]]; then
+        echo "Building container..."
+        docker-compose build && docker-compose run web rake db:create db:setup || (echo "run build encountered an error. See output above." && exit 1)
+    fi
+
+    if ! [[ -z ${START} ]]; then
+        exit_if_cmd_conflicts_with_start
+        echo "Starting container..."
+        docker-compose up || (echo "run start encountered an error. See output above." && exit 1)
+    fi
+
+    if ! [[ -z ${HALT} ]]; then
+        echo "Stopping container..."
+        docker-compose stop || (echo "run stop encountered an error. See output above." && exit 1)
+    fi
+
+    if ! [[ -z ${TIDY} ]]; then
+        if ! [[ -z ${CLEAN} ]]; then
+            echo "Both clean and tidy specified. Will opt for the less-severe tidy."
+        fi
+        echo "Tidying up..."
+        docker-compose down || (echo "run tidy encountered an error. See output above." && exit 1)
+    elif ! [[ -z ${CLEAN} ]]; then
+        echo "Cleaing up..."
+        docker-compose stop
+        docker-compose down --volumes --remove-orphans || (echo "run clean encountered an error. See output above." && exit 1)
+    fi
+
+    echo "Done!"
+    
+    exit 0
+}
+
+main

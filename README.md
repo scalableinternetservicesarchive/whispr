@@ -4,17 +4,14 @@ Whispr is a medical profile app - compile all relevant medical history in one pl
 
 ## Prerequisites
 
- - Node 11.0.0
- - Postgres 11.1
- - Rails 6.0.0
- - Ruby 2.6.3p62 (2019-04-16 revision 67580)
- - Yarn 1.19.0
+ - Docker 18.09.2
 
 ## Getting Started
 
-1. Run `bundle install` to install necessary packages.
-2. Run `rake db:setup` to setup Postgres.
-3. Run `rails server` to spin up the app locally. It will be exposed at http://127.0.0.1:3000.
+1. Use `./run build` to build the docker container for the app. 
+    - TODO: for now, this step will fail at the end, as we don't have a `schema.rb` file. That's fine, though. The remaining steps will still work.
+2. Use `./run start` to run the app locally. It will be exposed at http://127.0.0.1:3000.
+3. For further usage of `./run`, use `./run usage`.
 
 ## Testing
 
@@ -22,4 +19,8 @@ Whispr is a medical profile app - compile all relevant medical history in one pl
 
 ## Cleanup
 
-1. TODO: under construction
+- Press `Ctrl+C` to close a currently-running instance of the docker container.
+- Use `./run stop` to stop the docker container running in the background.
+- Use `./run tidy` to do a light clean of the docker container.
+- Use `./run clean` to do a full cleanup (caches of gem files will be removed).
+
