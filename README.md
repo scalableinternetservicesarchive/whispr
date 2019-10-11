@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/benjibrandt/whispr.svg?branch=master)](https://travis-ci.com/benjibrandt/whispr)
+
 whispr
 ========================
 Whispr is a medical profile app - compile all relevant medical history in one place, with a convenient way to send it to healtchare providers, and have them add in new information in real-time.
