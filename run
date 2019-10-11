@@ -17,6 +17,7 @@ Think of it like \`npm run\`, but via bash.\n\
 The only valid options, at present, are:\n\
 \t1) b|build: builds the docker containers for a local instance of the app.\n\
 \t2) s|start: starts the local version of the app. Equivalent to \'docker-compose up\'. Must have run --build first, or a failure will occur.\n\
+\t\ta) d|detached: if specified alongside start, will run the docker container in detached mode.\n\
 \t3) h|halt|stop: stop the local version of the app. Equivalent to \'docker-compose down\'.
 \t4) t|tidy: does a light-touch clean of some dependencies, leaving Docker volumes intact.
 \t5) c|clean: does a full-blown clean of the setup, removing everything brought in by build and start.
@@ -39,6 +40,11 @@ case $key in
     ;;
     s|start)
       START=true
+      option_set=true
+      shift
+    ;;
+    d|detached)
+      DETACHED=true
       option_set=true
       shift
     ;;
@@ -76,7 +82,11 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 exit_if_cmd_conflicts_with_start ()
 {
     if ! [[ -z ${CLEAN} ]] || ! [[ -z ${TIDY} ]] || ! [[ -z ${HALT} ]]; then
-        ! [[ -z ${CLEAN} ]] && offender="clean" || ! [[ -z ${TIDY} ]] && offender="tidy" || offender="stop"
+        if ! [[ -z ${CLEAN} ]]; then 
+            offender="clean"
+        else 
+            ! [[ -z ${TIDY} ]] && offender="tidy" || offender="stop" 
+        fi
         echo "The start option cannot be specified with $offender. Please rethink your command and try again."
         exit 1
     fi
@@ -88,6 +98,11 @@ exit_if_cmd_conflicts_with_start ()
 
 main ()
 {
+    if ! [[ -z ${DETACHED} ]] && [[ -z ${START} ]]; then
+        echo "You cannot specify detached without specifying start."
+        exit 1
+    fi
+
     if [[ -z ${option_set} ]]; then
         echo "You must specify a valid option to use run."
         printf "$USAGE_MSG"
@@ -102,7 +117,11 @@ main ()
     if ! [[ -z ${START} ]]; then
         exit_if_cmd_conflicts_with_start
         echo "Starting container..."
-        docker-compose up || (echo "run start encountered an error. See output above." && exit 1)
+        if ! [[ -z ${DETACHED} ]]; then
+            docker-compose up --detach || (echo "run start encountered an error. See output above." && exit 1)
+        else
+            docker-compose up || (echo "run start encountered an error. See output above." && exit 1)
+        fi
     fi
 
     if ! [[ -z ${HALT} ]]; then

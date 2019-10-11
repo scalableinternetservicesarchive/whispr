@@ -5,8 +5,11 @@ services:
 
 before_install:
   - ./run build
-  - ./run start  # TODO(benjibrandt): make run build start a single command once some minor kinks are worked out
-  - docker ps -a
+  - ./run start detached # TODO(benjibrandt): make run build start a single command once some minor kinks are worked out
 
 script:
-  - bundle exec rake test
+  - docker ps -a
+  - ping -c 3 127.0.0.1
+  - ./run stop
+  - ./run clean
+  # TODO(benjibrandt): enable this once we have real tests - bundle exec rake test
