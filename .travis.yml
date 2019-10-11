@@ -1,0 +1,12 @@
+language: ruby
+
+services:
+  - docker
+
+before_install:
+  - ./run build
+  - ./run start  # TODO(benjibrandt): make run build start a single command once some minor kinks are worked out
+  - docker ps -a
+
+script:
+  - bundle exec rake test
