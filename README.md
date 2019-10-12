@@ -26,3 +26,4 @@ Whispr is a medical profile app - compile all relevant medical history in one pl
 - Use `./run tidy` to do a light clean of the docker container.
 - Use `./run clean` to do a full cleanup (caches of gem files will be removed).
 
+# br3w
