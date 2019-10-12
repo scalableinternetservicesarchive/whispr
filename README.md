@@ -2,7 +2,7 @@
 
 whispr
 ========================
-Whispr is a medical profile app - compile all relevant medical history in one place, with a convenient way to send it to healtchare providers, and have them add in new information in real-time.
+Whispr is a medical profile app - compile all relevant medical history in one place, with a convenient way to send it to health care providers, and have them add in new information in real-time.
 
 ## Prerequisites
 
@@ -26,3 +26,22 @@ Whispr is a medical profile app - compile all relevant medical history in one pl
 - Use `./run tidy` to do a light clean of the docker container.
 - Use `./run clean` to do a full cleanup (caches of gem files will be removed).
 
+## Meet the Team
+
+<img src="https://drive.google.com/uc?export=view&id=1HXKTJR6t2p6fX-4D7nOiVkzaX178bEWa" width="250" height="250">
+
+**Benji Brandt**, *@benjibrandt*
+
+<img src="https://drive.google.com/uc?export=view&id=13--E-GK6gckc0Pe2a52Jeu0Fg8SAFNW_" width="250" height="250">
+
+**Moo Jin Kim**, *@moojink*
+
+<img src="https://drive.google.com/uc?export=view&id=1CYT40mEEEHASm0WuAFW0MggwFZIPzwJ_" width="250" height="250">
+
+**Roy S. Lin**, *@rlin2k1*
+
+<img src="https://drive.google.com/uc?export=view&id=1cSio232vG-iyZHJQtlWCrGx2OMfzfWEm" width="250" height="250">
+
+**Bryan Pan**, *@BryanPan342*
+
+##### What Section Do We Attend? It varies!
