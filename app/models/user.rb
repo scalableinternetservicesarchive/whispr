@@ -1,11 +1,18 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
-    before_save { email.downcase!}
-    VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:github]
 
-    validates :name, presence: true, length:  {maximum: 50}
-    validates :email, presence: true, length: {maximum: 200}, format: {with: VALID_EMAIL_REGEX }, 
-        uniqueness: {case_sensitive: false}
-    validates :password, presence: true, length: {minimum: 6}
-
-    has_secure_password
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.provider = auth.provider
+      user.uid = auth.uid
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+    end
+  end
 end

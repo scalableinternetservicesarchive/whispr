@@ -10,9 +10,12 @@ RUN apt-get install -y libxml2-dev libxslt1-dev
 
 # for a JS runtime
 RUN apt-get install -y nodejs
+RUN apt-get install -y npm
+
+RUN apt remove cmdtest
 
 # Yarn Package Management
-RUN apt-get install -y yarn
+RUN npm install -g yarn
 
 # up-to-date bundler
 RUN gem install bundler
@@ -32,4 +35,6 @@ ENV PATH="${BUNDLE_BIN}:${PATH}"
 
 COPY ./.docker/docker-entrypoint.sh $APP_HOME/
 RUN chmod +x $APP_HOME/docker-entrypoint.sh
+RUN yarn install --check-files
+
 ENTRYPOINT ["./docker-entrypoint.sh"]

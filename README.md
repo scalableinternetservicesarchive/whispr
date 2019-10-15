@@ -1,47 +1,62 @@
-[![Build Status](https://travis-ci.com/benjibrandt/whispr.svg?branch=master)](https://travis-ci.com/benjibrandt/whispr)
+# Rails 6 devise example
+It is an example app and a basic template for devise auth in rails 6 with omni github auth.
 
-whispr
-========================
-Whispr is a medical profile app - compile all relevant medical history in one place, with a convenient way to send it to health care providers, and have them add in new information in real-time.
+## Build with
+- Rails on rails
+- Bootstrap with webpack
+- Github OAuth
 
-## Prerequisites
+## Get Started
+### Requirement
+- Ruby 2.6
+- Rails 6
+- Foreman gem
 
- - Docker 18.09.2
+### Clone
+```bash
+git clone https://github.com/imhta/rails_6_devise_example.git
+cd rails_6_devise_example
+```
+### Install and migrate db
 
-## Getting Started
+```bash
+bundle install 
+rails db:migrate
+```
+### Start Server
+To start rails server
+```bash
+rails serve
 
-1. Use `./run build` to build the docker container for the app. 
-    - TODO: for now, this step will fail at the end, as we don't have a `schema.rb` file. That's fine, though. The remaining steps will still work.
-2. Use `./run start` to run the app locally. It will be exposed at http://127.0.0.1:3000.
-3. For further usage of `./run`, use `./run usage`.
+```
+To start webpack server because rails 6 in default use webpack
+```bash
+foreman start -f Procfile.dev
+```
 
-## Testing
 
--  TODO: under construction
+## Screenshots
 
-## Cleanup
+### Log In Page
+<img src="screenshots/image.png">
 
-- Press `Ctrl+C` to close a currently-running instance of the docker container.
-- Use `./run stop` to stop the docker container running in the background.
-- Use `./run tidy` to do a light clean of the docker container.
-- Use `./run clean` to do a full cleanup (caches of gem files will be removed).
+### Sign Up Page
+<img src="screenshots/image2.png">
 
-## Meet the Team
+### Forgot password Page
+<img src="screenshots/image4.png">
 
-<img src="https://drive.google.com/uc?export=view&id=1HXKTJR6t2p6fX-4D7nOiVkzaX178bEWa" width="250" height="250">
+### Home Page
+<img src="screenshots/image3.png">
 
-**Benji Brandt**, *@benjibrandt*
 
-<img src="https://drive.google.com/uc?export=view&id=13--E-GK6gckc0Pe2a52Jeu0Fg8SAFNW_" width="250" height="250">
 
-**Moo Jin Kim**, *@moojink*
-
-<img src="https://drive.google.com/uc?export=view&id=1CYT40mEEEHASm0WuAFW0MggwFZIPzwJ_" width="250" height="250">
-
-**Roy S. Lin**, *@rlin2k1*
-
-<img src="https://drive.google.com/uc?export=view&id=1cSio232vG-iyZHJQtlWCrGx2OMfzfWEm" width="250" height="250">
-
-**Bryan Pan**, *@BryanPan342*
-
-##### What Section Do We Attend? It varies!
+## Useful links
+- [How to Redirect to a specific page on successful sign in](https://github.com/plataformatec/devise/wiki/How-To:-redirect-to-a-specific-page-on-successful-sign-in)
+- [How to use custom mailer](https://github.com/plataformatec/devise/wiki/How-To:-Use-custom-mailer)
+- [The Figaro Gem: an easier way to securely configure Rails applications](https://medium.com/@MinimalGhost/the-figaro-gem-an-easier-way-to-securely-configure-rails-applications-c6f963b7e993)
+- [OAuth with digital ocean in devise](https://www.digitalocean.com/community/tutorials/how-to-configure-devise-and-omniauth-for-your-rails-application)
+- [Omni Auth: overview](https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview)
+- [Other Devise Examples](https://github.com/plataformatec/devise/wiki/Example-applications)
+### Common Error
+- [undefined method devise for in rails](https://stackoverflow.com/questions/4810941/undefined-method-devise-for-in-rails)
