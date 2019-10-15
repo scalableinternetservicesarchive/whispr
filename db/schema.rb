@@ -18,10 +18,23 @@ ActiveRecord::Schema.define(version: 2019_10_10_225611) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.string "phone"
+    t.index ["phone"], name: "index_users_on_phone", unique: true
+    t.string "password_digest"
+
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "password_digest"
-    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "healthcare_providers", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.index ["email"], name: "index_healthcare_providers_on_email", unique: true
+    t.string "phone"
+    t.index ["phone"], name: "index_healthcare_providers_on_phone", unique: true
+    t.string "password_digest"
+    
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
 end

@@ -34,29 +34,29 @@ do
 key="$1"
 case $key in
     b|build)
-      BUILD=true
-      option_set=true
-      shift # past argument
+        BUILD=true
+        option_set=true
+        shift # past argument
     ;;
     s|start)
-      START=true
-      option_set=true
-      shift
+        START=true
+        option_set=true
+        shift
     ;;
     d|detached)
-      DETACHED=true
-      option_set=true
-      shift
+        DETACHED=true
+        option_set=true
+        shift
     ;;
     h|halt|stop)
-      HALT=true
-      option_set=true
-      shift
+        HALT=true
+        option_set=true
+        shift
     ;;
     t|tidy)
-      TIDY=true
-      option_set=true
-      shift
+        TIDY=true
+        option_set=true
+        shift
     ;;
     c|clean)
         CLEAN=1
@@ -64,8 +64,8 @@ case $key in
         shift
     ;;
     u|usage)
-      printf "$USAGE_MSG"
-      exit 0
+        printf "$USAGE_MSG"
+        exit 0
     ;;
     *) # unknown option
         printf "$1 is an invalid option.\n"
