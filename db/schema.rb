@@ -15,27 +15,76 @@ ActiveRecord::Schema.define(version: 2019_10_10_225611) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.string "phone"
-    t.index ["phone"], name: "index_users_on_phone", unique: true
-    t.string "password_digest"
+  create_table :users, force: :cascade do |t|
+    t.string :name
+    t.string :email
+    t.index [:email], name: "index_users_on_email", unique: true
+    t.string :phone
+    t.index [:phone], name: "index_users_on_phone", unique: true
+
+    t.string :address
 
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "healthcare_providers", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.index ["email"], name: "index_healthcare_providers_on_email", unique: true
-    t.string "phone"
-    t.index ["phone"], name: "index_healthcare_providers_on_phone", unique: true
-    t.string "password_digest"
+  create_table :healthcare_providers, force: :cascade do |t|
+    t.string :name
+    t.string :email
+    t.index [:email], name: "index_healthcare_providers_on_email", unique: true
+    t.string :phone
+    t.index [:phone], name: "index_healthcare_providers_on_phone", unique: true
+
+    t.string :address
     
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
+
+  create_table :allergies, force: cascade do |t|
+    t.text :allergy, array: true, default: []
+    t.text :reaction, array: true, default: []
+  end
+
+  create_table :medications, force: cascade do |t|
+    t.text :medication, array: true, default: []
+    t.text :dose, array: true, default: []
+    t.text :frequency, array: true, default: []
+  end
+
+  create_table :vacinations, force: cascade do |t|
+    t.text :vacination, array: true, default: []
+    t.datetime :date, array: true, default: []
+    t.text :facility, array: true, default: []
+  end
+
+  create_table :diseases, force: cascade do |t|
+    t.text :disease, array: true, default: []
+    t.boolean :current, array: true, default: []
+    t.boolean :past, array: true, default: []
+  end
+
+  create_table :surgeries, force: cascade do |t|
+    t.text :surgery, array: true, default: []
+    t.datetime :date, precision: 6, null: false, array: true, default: []
+    t.text :facility, array: true, default: []
+  end
+
+  create_table :family_history, force: cascade do |t|
+    t.text :family_member, array: true, default: []
+    t.text :coniditon, array: true, default: []
+  end
+
+  # create_table :health_records, force: cascade do |t|
+  #   t.string :name
+  #   t.string :birthdate
+  #   t.table :allergies
+  #   t.table :medications
+  #   t.table :vacinations
+  #   t.table :diseases
+  #   t.table :surgeries
+  #   t.table :family_history
+  #   t.datetime "created_at", precision: 6, null: false
+  #   t.datetime "updated_at", precision: 6, null: false
+  # end
 end
