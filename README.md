@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/benjibrandt/whispr.svg?branch=master)](https://travis-ci.com/benjibrandt/whispr)
+[![Build Status](https://travis-ci.com/scalableinternetservices/whispr.svg?branch=master)](https://travis-ci.com/scalableinternetservices/whispr)
 
 whispr
 ========================
