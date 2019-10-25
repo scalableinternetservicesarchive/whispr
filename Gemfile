@@ -2,12 +2,15 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem 'rails',      '6.0.0'
+gem 'sqlite3'
 gem 'puma',       '3.12.1'
 gem 'sassc-rails', '2.1.2'
 gem 'webpacker',  '4.0.7'
 gem 'turbolinks', '5.2.0'
 gem 'jbuilder',   '2.9.1'
 gem 'bootsnap',   '1.4.4', require: false
+gem 'devise'
+gem 'omniauth-github'
 
 group :development, :test do
   # postgres
