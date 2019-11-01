@@ -28,6 +28,15 @@ The only valid options, at present, are:\n\
 readonly whispr_web="whispr_web"
 
 ##############################################
+# Trap Ctrl+C
+##############################################
+trap haltDocker INT
+
+haltDocker () {
+    docker-compose stop
+}
+
+##############################################
 # ARGUMENT PARSING
 ##############################################
 POSITIONAL=()
@@ -136,17 +145,23 @@ main ()
     fi
 
     if isValid? $BUILD; then
-        echo "Building container..."
-        docker-compose build && docker-compose run web rake db:create db:setup || (echo "run build encountered an error. See output above." && exit 1)
+        echo "Building app..."
+        docker-compose build
+        yarn install --check-files
+        bundle install || (echo "bundle install failed! See above!" && exit 1)
+        gem pristine bcrypt --version 3.1.13
+        docker-compose up --detach && bundle exec rake db:create db:setup || (echo "DB creation/setup failed. See output above." && exit 1)
+        docker-compose stop
     fi
 
     if isValid? $START; then
         exitIfCmdConflictsWithStart
-        echo "Starting container..."
+        echo "Starting app..."
+        bundle check || (printf "Some gems are missing! Installing missing gems..." && bundle install)
         if isValid? $DETACHED; then
-            docker-compose up --detach || (echo "run start encountered an error. See output above." && exit 1)
+            docker-compose up --detach && bundle exec rails s -p 3000 -b '0.0.0.0' -d
         else
-            docker-compose up || (echo "run start encountered an error. See output above." && exit 1)
+            docker-compose up --detach && bundle exec rails s -p 3000 -b '0.0.0.0'
         fi
         # TODO(benjibrandt): this is jenky and doesn't really work. Fix it.
         # echo "Ensuring gems are up-to-date..."
@@ -177,9 +192,13 @@ main ()
         fi
         isValid? $ARMAGEDDON && cleaner="armageddon" || cleaner="clean"
         isValid? $ARMAGEDDON && echo "Commencing armageddon clean..." || echo "Cleaning up..."
+        rm -rf node_modules
         docker-compose stop || (echo "run $cleaner encountered an error. See output above." && exit 1)
         docker-compose down --volumes --remove-orphans || (echo "run $cleaner encountered an error. See output above." && exit 1)
-        if isValid? $ARMAGEDDON; then docker container prune -f || (echo "run armageddon encountered an error. See output above." && exit 1) fi
+        if isValid? $ARMAGEDDON; then 
+            docker container prune -f || (echo "run armageddon encountered an error. See output above." && exit 1) 
+            bundle clean
+        fi
     fi
 
     echo "Done!"

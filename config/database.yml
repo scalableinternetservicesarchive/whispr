@@ -3,8 +3,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  host: 0.0.0.0
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: whispr
+  username: postgres
   password:
   timeout: 5000
 

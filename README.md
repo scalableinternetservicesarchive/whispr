@@ -10,17 +10,11 @@ Whispr is a medical profile app - compile all relevant medical history in one pl
 
 ## Getting Started
 
-1. Use `./run build` to build the docker container for the app. 
-    - TODO: for now, this step will fail at the end, as we don't have a `schema.rb` file. That's fine, though. The remaining steps will still work.
+1. Use `./run build` to build the docker container for postgres, and install packages for the app. 
+    - TODO: there's some funkiness here with certain packages here, at least on my machine.
 2. Use `./run start` to run the app locally. It will be exposed at http://127.0.0.1:3000.
-3. Database migrations on startup must be done with commmand: `docker exec -d whispr_web_1 rails db:migrate RAILS_ENV=development`
+3. Database migrations on startup must be done with commmand: `bundle exec rails db:migrate RAILS_ENV=development`
 4. For further usage of `./run`, use `./run usage`.
-
-## NOTES:
-Without Docker, Need to Setup Postgresql Database MACOS: <br>
-brew install postgres<br>
-Need to have database server running with a Mac program like Postgres<br>
-Log into database and run: `create role whispr login createdb;`
 
 ## Testing
 
@@ -31,7 +25,8 @@ Log into database and run: `create role whispr login createdb;`
 - Press `Ctrl+C` to close a currently-running instance of the docker container.
 - Use `./run stop` to stop the docker container running in the background.
 - Use `./run tidy` to do a light clean of the docker container.
-- Use `./run clean` to do a full cleanup (caches of gem files will be removed).
+- Use `./run clean` to do a full cleanup (removes node_modules).
+- Use `./run armageddon` for an overly-throrough clean, including removing cached gems.
 
 ## Meet the Team
 
