@@ -1,4 +1,3 @@
 class HealthRecord < ApplicationRecord
-    validates :name, presence: true
-    validates :birthdate, presence: true
+    belongs_to :user
 end

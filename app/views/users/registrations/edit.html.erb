@@ -4,8 +4,34 @@
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, autofocus: true, autocomplete: "name"%>
+  </div>
+
+  <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :allergies %><br />
+    <%= f.text_field :allergies, class: 'form-control m-2'  %>
+  </div>
+  <div class="field">
+    <%= f.label :vaccines %><br />
+    <%= f.text_field :vaccines, class: 'form-control m-2'  %>
+  </div>
+  <div class="field">
+    <%= f.label :medication %><br />
+    <%= f.text_field :medication, class: 'form-control m-2'  %>
+  </div>
+  <div class="field">
+    <%= f.label :diseases %><br />
+    <%= f.text_field :diseases, class: 'form-control m-2'  %>
+  </div>
+  <div class="field">
+    <%= f.label :medical_history %><br />
+    <%= f.text_field :medical_history, class: 'form-control m-2'  %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
