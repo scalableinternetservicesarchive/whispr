@@ -20,5 +20,10 @@ test:
   database: whispr_test
 
 production:
-  <<: *default
-  database: whispr_production
+  adapter: postgresql
+  database: <%= ENV['RDS_DB_NAME'] %>
+  encoding: UTF8
+  host: <%= ENV['RDS_HOSTNAME'] %>
+  password: <%= ENV['RDS_PASSWORD'] %>
+  port: <%= ENV['RDS_PORT'] %>
+  username: <%= ENV['RDS_USERNAME'] %>
