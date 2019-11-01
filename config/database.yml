@@ -3,8 +3,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  host: 0.0.0.0
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: whispr
+  username: postgres
   password:
   timeout: 5000
 
@@ -20,5 +21,10 @@ test:
   database: whispr_test
 
 production:
-  <<: *default
-  database: whispr_production
+  adapter: postgresql
+  database: <%= ENV['RDS_DB_NAME'] %>
+  encoding: UTF8
+  host: <%= ENV['RDS_HOSTNAME'] %>
+  password: <%= ENV['RDS_PASSWORD'] %>
+  port: <%= ENV['RDS_PORT'] %>
+  username: <%= ENV['RDS_USERNAME'] %>

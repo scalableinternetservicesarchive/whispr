@@ -13,8 +13,6 @@ gem 'devise'
 gem 'omniauth-github'
 
 group :development, :test do
-  # postgres
-  gem 'pg'
   gem 'byebug',  '11.0.1', platforms: [:mri, :mingw, :x64_mingw]
 end
 
@@ -32,7 +30,7 @@ group :test do
 end
 
 group :production do
-  gem 'pg'
+  # any prod-specific gems?
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
