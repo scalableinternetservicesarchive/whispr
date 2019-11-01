@@ -16,6 +16,13 @@ Whispr is a medical profile app - compile all relevant medical history in one pl
 3. Database migrations on startup must be done with commmand: `docker exec -d whispr_web_1 rails db:migrate RAILS_ENV=development`
 4. For further usage of `./run`, use `./run usage`.
 
+## NOTES:
+Without Docker, Need to Setup Postgresql Database MACOS:
+brew install postgres
+Need to have database server running with a Mac program like Postgres
+Log into database and run: `create role whispr login createdb;`
+
+
 ## Testing
 
 -  TODO: under construction
