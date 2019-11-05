@@ -28,6 +28,3 @@ yarn-debug.log*
 .yarn-integrity
 
 /vendor
-
-# AWS files
-whispr.pem

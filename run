@@ -18,23 +18,12 @@ The only valid options, at present, are:\n\
 \t1) b|build: builds the docker containers for a local instance of the app.\n\
 \t2) s|start: starts the local version of the app. Equivalent to \'docker-compose up\'. Must have run --build first, or a failure will occur.\n\
 \t\ta) d|detached: if specified alongside start, will run the docker container in detached mode.\n\
-\t3) h|halt|stop: stop the local version of the app. Equivalent to \'docker-compose down\'.\n\
-\t4) t|tidy: does a light-touch clean of some dependencies, leaving Docker volumes intact.\n\
-\t5) c|clean: does a full-blown clean of the setup, removing everything brought in by build and start.\n\
-\t6) a|armageddon: does a full-blown clean of docker, removing all stopped containers.\n\
-\t7) u|usage: display this usage message.\n\
+\t3) h|halt|stop: stop the local version of the app. Equivalent to \'docker-compose down\'.
+\t4) t|tidy: does a light-touch clean of some dependencies, leaving Docker volumes intact.
+\t5) c|clean: does a full-blown clean of the setup, removing everything brought in by build and start.
+\t6) u|usage: display this usage message.\n\
 \n\
 "
-readonly whispr_web="whispr_web"
-
-##############################################
-# Trap Ctrl+C
-##############################################
-trap haltDocker INT
-
-haltDocker () {
-    docker-compose stop
-}
 
 ##############################################
 # ARGUMENT PARSING
@@ -70,12 +59,7 @@ case $key in
         shift
     ;;
     c|clean)
-        CLEAN=true
-        option_set=true
-        shift
-    ;;
-    a|armageddon)
-        ARMAGEDDON=true
+        CLEAN=1
         option_set=true
         shift
     ;;
@@ -95,36 +79,17 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 # FUNCTIONS
 ##############################################
 
-# @param: the variable to check for validity
-isValid? ()
+exit_if_cmd_conflicts_with_start ()
 {
-    if ! [[ -z ${1} ]]; then
-        return 0
-    fi
-
-    return 1
-}
-
-exitIfCmdConflictsWithStart ()
-{
-    if isValid? $CLEAN || isValid? $TIDY || isValid? $HALT || isValid? $ARMAGEDDON; then
-        if isValid? $CLEAN; then 
+    if ! [[ -z ${CLEAN} ]] || ! [[ -z ${TIDY} ]] || ! [[ -z ${HALT} ]]; then
+        if ! [[ -z ${CLEAN} ]]; then 
             offender="clean"
-        elif isValid? $ARMAGEDDON; then
-            offender="armageddon"
         else 
-            isValid? $TIDY && offender="tidy" || offender="stop" 
+            ! [[ -z ${TIDY} ]] && offender="tidy" || offender="stop" 
         fi
         echo "The start option cannot be specified with $offender. Please rethink your command and try again."
         exit 1
     fi
-}
-
-updateGemFiles ()
-{
-    docker cp Gemfile $whispr_web:/whispr/ || echo "Failed to update Gemfile in container $whispr_web..."
-    docker cp Gemfile.lock $whispr_web:/whispr/ || echo "Failed to update Gemfile.lock in container $whispr_web..."
-    docker-compose run web bundle install
 }
 
 ##############################################
@@ -133,72 +98,47 @@ updateGemFiles ()
 
 main ()
 {
-    if isValid? $DETACHED && ! isValid? $START; then
+    if ! [[ -z ${DETACHED} ]] && [[ -z ${START} ]]; then
         echo "You cannot specify detached without specifying start."
         exit 1
     fi
 
-    if ! isValid? $option_set; then
+    if [[ -z ${option_set} ]]; then
         echo "You must specify a valid option to use run."
         printf "$USAGE_MSG"
         exit 1
     fi
 
-    if isValid? $BUILD; then
-        echo "Building app..."
-        docker-compose build
-        yarn install --check-files
-        bundle install || (echo "bundle install failed! See above!" && exit 1)
-        gem pristine bcrypt --version 3.1.13
-        docker-compose up --detach && bundle exec rake db:create db:setup || (echo "DB creation/setup failed. See output above." && exit 1)
-        docker-compose stop
+    if ! [[ -z ${BUILD} ]]; then
+        echo "Building container..."
+        docker-compose build && docker-compose run web rake db:create db:setup || (echo "run build encountered an error. See output above." && exit 1)
     fi
 
-    if isValid? $START; then
-        exitIfCmdConflictsWithStart
-        echo "Starting app..."
-        bundle check || (printf "Some gems are missing! Installing missing gems..." && bundle install)
-        if isValid? $DETACHED; then
-            docker-compose up --detach && bundle exec rails s -p 3000 -b '0.0.0.0' -d
+    if ! [[ -z ${START} ]]; then
+        exit_if_cmd_conflicts_with_start
+        echo "Starting container..."
+        if ! [[ -z ${DETACHED} ]]; then
+            docker-compose up --detach || (echo "run start encountered an error. See output above." && exit 1)
         else
-            docker-compose up --detach && bundle exec rails s -p 3000 -b '0.0.0.0'
+            docker-compose up || (echo "run start encountered an error. See output above." && exit 1)
         fi
-        # TODO(benjibrandt): this is jenky and doesn't really work. Fix it.
-        # echo "Ensuring gems are up-to-date..."
-        # updateGemFiles
     fi
 
-    if isValid? $HALT; then
+    if ! [[ -z ${HALT} ]]; then
         echo "Stopping container..."
         docker-compose stop || (echo "run stop encountered an error. See output above." && exit 1)
     fi
 
-    if isValid? $TIDY; then
-        if isValid? $CLEAN || isValid? $ARMAGEDDON; then
-            if isValid? $CLEAN && isValid? $ARMAGEDDON; then
-                echo "Clean, armageddon and tidy specified. Will opt for the less-severe tidy."
-            else
-                isValid? $ARMAGEDDON && cleaner="armageddon" || cleaner="clean"
-                echo "Both $cleaner and tidy specified. Will opt for the less-severe tidy."
-            fi
+    if ! [[ -z ${TIDY} ]]; then
+        if ! [[ -z ${CLEAN} ]]; then
+            echo "Both clean and tidy specified. Will opt for the less-severe tidy."
         fi
         echo "Tidying up..."
-        docker-compose stop
         docker-compose down || (echo "run tidy encountered an error. See output above." && exit 1)
-    elif isValid? $CLEAN || isValid? $ARMAGEDDON; then
-        if isValid? $CLEAN && isValid? $ARMAGEDDON; then
-            echo "Armageddon and clean both specified. Will opt for less-severe clean."
-            unset ARMAGEDDON
-        fi
-        isValid? $ARMAGEDDON && cleaner="armageddon" || cleaner="clean"
-        isValid? $ARMAGEDDON && echo "Commencing armageddon clean..." || echo "Cleaning up..."
-        rm -rf node_modules
-        docker-compose stop || (echo "run $cleaner encountered an error. See output above." && exit 1)
-        docker-compose down --volumes --remove-orphans || (echo "run $cleaner encountered an error. See output above." && exit 1)
-        if isValid? $ARMAGEDDON; then 
-            docker container prune -f || (echo "run armageddon encountered an error. See output above." && exit 1) 
-            bundle clean
-        fi
+    elif ! [[ -z ${CLEAN} ]]; then
+        echo "Cleaing up..."
+        docker-compose stop
+        docker-compose down --volumes --remove-orphans || (echo "run clean encountered an error. See output above." && exit 1)
     fi
 
     echo "Done!"
