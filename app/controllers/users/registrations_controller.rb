@@ -6,8 +6,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # prepend_before_filter :authenticate_scope!, :only => [:edit,:medical]
   # GET /resource/sign_up
   def new
-    super
-    build_resource({})
+    @user = User.new
+    render :new
+    # super
+    # build_resource({})
   end
 
   # POST /resource
