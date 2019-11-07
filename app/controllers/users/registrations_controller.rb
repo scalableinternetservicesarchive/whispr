@@ -2,11 +2,12 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
-
+  # before_action :configure_account_update_params, only: [:medical, :update]
+  # prepend_before_filter :authenticate_scope!, :only => [:edit,:medical]
   # GET /resource/sign_up
   # def new
   #   super
+  #   build_resource({})
   # end
 
   # POST /resource
@@ -16,12 +17,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/edit
   # def edit
-  #   super
+  #   render :edit
   # end
+
+  def medical
+    @user = current_user
+    if @user
+      render :medical
+    else
+      render file: 'public/404', status: 404, formats: [:html]
+    end 
+  end
 
   # PUT /resource
   # def update
-  #   super
+  #   devise_parameter_sanitizer.permit(:account_update, keys: [:name, :allergies, :email, :vaccines, :medication, :diseases, :medical_history])
   # end
 
   # DELETE /resource
@@ -47,7 +57,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
-  #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
+  #   update_path
   # end
 
   # The path used after sign up.

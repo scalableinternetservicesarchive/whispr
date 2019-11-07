@@ -1,6 +1,7 @@
 
 <h2 class="text-center m-5">Edit Profile</h2>
 <section class="col-8 offset-2 col-sm-6 offset-sm-3">
+<%= puts(resource) %>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -12,6 +13,30 @@
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :allergies %><br />
+    <%= f.text_field :allergies, class: 'form-control m-2'  %>
+  </div>
+
+  <div class="field">
+    <%= f.label :vaccines %><br />
+    <%= f.text_field :vaccines, class: 'form-control m-2'  %>
+  </div>
+
+  <div class="field">
+    <%= f.label :medication %><br />
+    <%= f.text_field :medication, class: 'form-control m-2'  %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :diseases %><br />
+    <%= f.text_field :diseases, class: 'form-control m-2'  %>
+  </div>
+  <div class="field">
+    <%= f.label :medical_history %><br />
+    <%= f.text_field :medical_history, class: 'form-control m-2'  %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -41,3 +66,9 @@
     <%= f.submit "Update" %>
   </div>
 <% end %>
+
+<h3>Cancel my account</h3>
+
+<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+
+<%= link_to "Back", :back %>
