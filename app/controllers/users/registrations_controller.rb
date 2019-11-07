@@ -5,10 +5,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:medical, :update]
   # prepend_before_filter :authenticate_scope!, :only => [:edit,:medical]
   # GET /resource/sign_up
-  # def new
-  #   super
-  #   build_resource({})
-  # end
+  def new
+    super
+    build_resource({})
+  end
 
   # POST /resource
   # def create
