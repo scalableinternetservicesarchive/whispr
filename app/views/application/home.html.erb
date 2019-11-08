@@ -5,7 +5,10 @@
         <h5>Email: <%= current_user.email %></h5>
     <%end%>
     <% if current_user.is_healthcare_provider %>
-        <h5>Your Patients: <%= "blank" %></h5>
+        <h5>Your Patients:</h5>
+        <% current_user.affiliated_patients.each do |patient| %>
+            <h5><%= patient %></h5>
+        <% end %>
     <%end%>
     <% if !current_user.is_healthcare_provider && current_user.allergies %>
         <h5> Allergies: <%= current_user.allergies%></h5>
@@ -14,9 +17,7 @@
         <h5> Medication: <%= current_user.medication%></h5>
         <h5> Family Medical History: <%= current_user.medical_history%></h5><br>
         <h5> Affiliated Health Providers:</h5>
-        <% current_user.affiliated_providers.each do |provider| %>
-            <h5><%= provider %></h5>
-        <% end %>
+        
     <%end%>
     <%=
         link_to_if(current_user.nil?, "Login", sign_in_path, class: 'btn btn-primary m-5') do

@@ -25,12 +25,19 @@
   <div class="field">
     <%= f.label :medical_history %><br />
     <%= f.text_field :medical_history, class: 'form-control m-2'  %>
-  </div>
+  </div><br>
+  
+  <div class="field">
+    <%= f.label :affiliated_providers %> <i><br>(Select those you wish to share your medical profile with, holding down<br>the CTRL or COMMAND key while clicking to select multiple providers.)</i><br />
+    <%= select_tag("affiliated_providers[]", options_from_collection_for_select(@users, 'id', 'name'), multiple: true) %>
+  </div><br>
 
   <div class="field">
     <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
+
+  
 
   <div class="actions">
     <%= f.submit "Update" %>

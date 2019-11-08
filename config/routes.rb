@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get '/users/sign_out' => 'devise/sessions#destroy'
     get 'forgot_password', to: 'users/passwords#new'
     get 'reset_password', to: 'users/passwords#edit'
+    get 'view_patient', to: 'users/registrations#view_patient'
   end
 
   root to: 'application#home'
