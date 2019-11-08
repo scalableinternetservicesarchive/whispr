@@ -12,7 +12,11 @@
         <h5> Vaccines: <%= current_user.vaccines%></h5>
         <h5> Conditions: <%= current_user.diseases%></h5>
         <h5> Medication: <%= current_user.medication%></h5>
-        <h5> Family Medical History: <%= current_user.medical_history%></h5>
+        <h5> Family Medical History: <%= current_user.medical_history%></h5><br>
+        <h5> Affiliated Health Providers:</h5>
+        <% current_user.affiliated_providers.each do |provider| %>
+            <h5><%= provider %></h5>
+        <% end %>
     <%end%>
     <%=
         link_to_if(current_user.nil?, "Login", sign_in_path, class: 'btn btn-primary m-5') do
