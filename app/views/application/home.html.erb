@@ -6,8 +6,10 @@
     <%end%>
     <% if current_user.is_healthcare_provider %>
         <h5>Your Patients:</h5>
-        <% current_user.affiliated_patients.each do |patient| %>
-            <h5><%= patient %></h5>
+            <% @users.each do |patient| %>
+                <%if !patient.is_healthcare_provider %>
+                    <%=button_to patient.name, patient_path, method: :get, params: {:id => patient.id}%>
+                <% end %>
         <% end %>
     <%end%>
     <% if !current_user.is_healthcare_provider && current_user.allergies %>

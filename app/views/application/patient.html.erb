@@ -1,0 +1,13 @@
+<section class="text-center m-5">
+    <h1 class="text-center" ><%=@user.name%>'s Patient Information </h1>
+    <h5> Email: <%= @user.email %></h5>
+    <h5> Allergies: <%= @user.allergies%></h5>
+    <h5> Vaccines: <%= @user.vaccines%></h5>
+    <h5> Medication: <%= @user.medication%></h5>
+    <h5> Diseases: <%= @user.diseases%></h5>
+    <h5> Family Medical History: <%= @user.medical_history%></h5><br>
+</section>
+
+<section class="text-center m-5">
+<%= link_to "Back", :back, class: 'btn btn-primary m-5' %>
+</section>
