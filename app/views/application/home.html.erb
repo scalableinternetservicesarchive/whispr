@@ -4,19 +4,22 @@
     <% if current_user %>
         <h5>Email: <%= current_user.email %></h5>
     <%end%>
-    <% if current_user.allergies %>
+    <% if current_user.is_healthcare_provider %>
+        <h5>Your Patients: <%= "blank" %></h5>
+    <%end%>
+    <% if !current_user.is_healthcare_provider && current_user.allergies %>
         <h5> Allergies: <%= current_user.allergies%></h5>
     <%end%>
-    <% if current_user.vaccines %>
+    <% if !current_user.is_healthcare_provider && current_user.vaccines %>
         <h5> Vaccines: <%= current_user.vaccines%></h5>
     <%end%>
-    <% if current_user.diseases %>
+    <% if !current_user.is_healthcare_provider && current_user.diseases %>
         <h5> Conditions: <%= current_user.diseases%></h5>
     <%end%>
-    <% if current_user.medication %>
+    <% if !current_user.is_healthcare_provider && current_user.medication %>
         <h5> Medication: <%= current_user.medication%></h5>
     <%end%>
-    <% if current_user.medical_history %>
+    <% if !current_user.is_healthcare_provider && current_user.medical_history %>
         <h5> Family Medical History: <%= current_user.medical_history%></h5>
     <%end%>
     <%=
@@ -30,10 +33,12 @@
         end
     %>
 
-    <%=
-        link_to_if(current_user.nil?, "Edit Medical Profile", medical_path, class: 'btn btn-primary m-5') do
-            link_to('Edit Medical Profile',  medical_path, class: 'btn btn-danger m-5')
-        end
-    %>
+    <% if !current_user.is_healthcare_provider %>
+        <%=
+            link_to_if(current_user.nil?, "Edit Medical Profile", medical_path, class: 'btn btn-primary m-5') do
+                link_to('Edit Medical Profile',  medical_path, class: 'btn btn-danger m-5')
+            end
+        %>
+    <%end%>
 
 </section>
