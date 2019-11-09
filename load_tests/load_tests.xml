@@ -39,6 +39,17 @@
       <request>
         <http url='/' version='1.1' method='GET'></http>
       </request>
+
+      <!-- wait for up to 2 seconds, user is looking at home page -->
+      <thinktime value="2" random="true"></thinktime>
+
+      <!-- visit the sign up page as a new user would do.  -->
+      <request>
+        <http url='/users/sign_up' version='1.1' method='GET'></http>
+      </request>
+      
+
+
     </session>
   </sessions>
 </tsung>
