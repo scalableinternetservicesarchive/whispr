@@ -47,7 +47,34 @@
       <request>
         <http url='/users/sign_up' version='1.1' method='GET'></http>
       </request>
-      
+
+      <!-- wait for up to 2 seconds, user is filling out new user form -->
+      <thinktime value="2" random="true"></thinktime>
+
+      <!-- go to to sign_up page and pull authenticity_token-->
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http url='/users/sign_up' version='1.1' method='GET'>
+          <http_header name="Cookie" value="%%_cookie%%" />
+        </http>
+      </request>
+
+      <setdynvars sourcetype="eval"
+				code="fun({Pid,DynVars})->
+				{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),
+				http_uri:encode(Val) end.">
+				<var name="encoded_authenticity_token" />
+	  </setdynvars>
+
+      <request subst="true">
+        <http
+          url='/users'
+          version='1.1'
+          method='POST'
+          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Bis_healthcare_provider%5D=0&amp;user%5Bname%5D=test%%_test_userid%%&amp;user%5Bemail%5D=test%%_test_userid%%%40gmail.com&amp;user%5Bpassword%5D=hydroflask&amp;user%5Bpassword_confirmation%5D=hydroflask&amp;commit=Sign+up'
+          content_type='application/x-www-form-urlencoded'>
+        </http>
+      </request>
 
 
     </session>
