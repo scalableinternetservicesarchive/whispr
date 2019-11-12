@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 2019_11_08_224411) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+<<<<<<< HEAD
   create_table "health_records", force: :cascade do |t|
     t.text "content"
     t.bigint "user_id"
@@ -34,6 +35,8 @@ ActiveRecord::Schema.define(version: 2019_11_08_224411) do
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
+=======
+>>>>>>> 67dffadb0d9b052b749c8b1a4cffc4c7ff63f038
   create_table "users", force: :cascade do |t|
     t.string "name", default: "Your Name Here", null: false
     t.string "email", default: "", null: false

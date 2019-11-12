@@ -25,5 +25,7 @@ Rails.application.routes.draw do
   end
 
   resources :relationships,       only: [:create, :destroy]
+  resources :users
+  get 'patient', to: 'application#patient'
   root to: 'application#home'
 end

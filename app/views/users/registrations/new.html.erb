@@ -17,7 +17,7 @@
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true,class: 'form-control m-2'  %>
   </div>
-
+ 
   <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
@@ -30,28 +30,28 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, class: 'form-control m-2'  %>
   </div>
-
-  <div class="field">
-    <%= f.label :allergies %><br />
-    <%= f.text_field :allergies, class: 'form-control m-2'  %>
-  </div>
-  <div class="field">
-    <%= f.label :vaccines %><br />
-    <%= f.text_field :vaccines, class: 'form-control m-2'  %>
-  </div>
-  <div class="field">
-    <%= f.label :medication %><br />
-    <%= f.text_field :medication, class: 'form-control m-2'  %>
-  </div>
-  <div class="field">
-    <%= f.label :diseases %><br />
-    <%= f.text_field :diseases, class: 'form-control m-2'  %>
-  </div>
-  <div class="field">
-    <%= f.label :medical_history %><br />
-    <%= f.text_field :medical_history, class: 'form-control m-2'  %>
-  </div>
-
+  <% if false %>
+    <div class="field">
+      <%= f.label :allergies %><br />
+      <%= f.text_field :allergies, class: 'form-control m-2'  %>
+    </div>
+    <div class="field">
+      <%= f.label :vaccines %><br />
+      <%= f.text_field :vaccines, class: 'form-control m-2'  %>
+    </div>
+    <div class="field">
+      <%= f.label :medication %><br />
+      <%= f.text_field :medication, class: 'form-control m-2'  %>
+    </div>
+    <div class="field">
+      <%= f.label :diseases %><br />
+      <%= f.text_field :diseases, class: 'form-control m-2'  %>
+    </div>
+    <div class="field">
+      <%= f.label :medical_history %><br />
+      <%= f.text_field :medical_history, class: 'form-control m-2'  %>
+    </div>
+  <%end%>
 
   <div class="actions">
     <%= f.submit "Sign up", class: 'btn btn-primary m-2'  %>
