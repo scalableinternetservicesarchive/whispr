@@ -17,5 +17,13 @@ Rails.application.routes.draw do
     get 'view_patient', to: 'users/registrations#view_patient'
   end
 
+  # Lets the user access lists of following/followers
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
+
+  resources :relationships,       only: [:create, :destroy]
   root to: 'application#home'
 end
