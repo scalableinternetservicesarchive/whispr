@@ -15,16 +15,6 @@ ActiveRecord::Schema.define(version: 2019_11_08_224411) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-<<<<<<< HEAD
-  create_table "health_records", force: :cascade do |t|
-    t.text "content"
-    t.bigint "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id", "created_at"], name: "index_health_records_on_user_id_and_created_at"
-    t.index ["user_id"], name: "index_health_records_on_user_id"
-  end
-
   create_table "relationships", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
@@ -35,8 +25,6 @@ ActiveRecord::Schema.define(version: 2019_11_08_224411) do
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
-=======
->>>>>>> 67dffadb0d9b052b749c8b1a4cffc4c7ff63f038
   create_table "users", force: :cascade do |t|
     t.string "name", default: "Your Name Here", null: false
     t.string "email", default: "", null: false
@@ -54,7 +42,7 @@ ActiveRecord::Schema.define(version: 2019_11_08_224411) do
     t.string "test"
     t.string "uid"
     t.boolean "is_healthcare_provider"
-    t.text "affiliated_providers"
+    t.text "affiliated_providers", default: "n/a"
     t.text "affiliated_patients"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name"
