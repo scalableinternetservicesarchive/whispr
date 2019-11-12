@@ -1,0 +1,9 @@
+<section class="text-center m-5">
+    <h1> whispr </h1>
+    <%=
+        link_to_if(current_user, "Log In", sign_in_path, class: 'btn btn-primary m-5') do
+            link_to('Log In',  sign_in_path, class: 'btn btn-danger m-5')
+        end
+    %>
+    
+</section>

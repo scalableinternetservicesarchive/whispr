@@ -66,7 +66,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if ! _resource.is_healthcare_provider
       medical_path
     else
-      root_path
+      profile_path
     end
   end
 
