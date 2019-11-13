@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2019_11_08_224411) do
     t.string "test"
     t.string "uid"
     t.boolean "is_healthcare_provider"
-    t.text "affiliated_providers", default: "n/a"
+    t.text "affiliated_providers"
     t.text "affiliated_patients"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name"
