@@ -16,6 +16,15 @@ Rails.application.routes.draw do
     get 'reset_password', to: 'users/passwords#edit'
     get 'view_patient', to: 'users/registrations#view_patient'
   end
+
+  # Lets the user access lists of following/followers
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
+
+  resources :relationships,       only: [:create, :destroy]
   resources :users
   get 'patient', to: 'application#patient'
   root to: 'application#home'

@@ -6,11 +6,7 @@
     <%end%>
     <% if current_user.is_healthcare_provider %>
         <h5>Your Patients:</h5>
-            <% @users.each do |patient| %>
-                <%if !patient.is_healthcare_provider %>
-                    <%=button_to patient.name, patient_path, method: :get, params: {:id => patient.id}%>
-                <% end %>
-        <% end %>
+        <%= render 'users/shared/stats' %>
     <%end%>
     <% if !current_user.is_healthcare_provider && current_user.allergies %>
         <h5> Allergies: <%= current_user.allergies%></h5>
@@ -19,6 +15,9 @@
         <h5> Diseases: <%= current_user.diseases%></h5>
         <h5> Family Medical History: <%= current_user.medical_history%></h5><br>
         <h5> Affiliated Health Providers:</h5>
+        <% current_user.following.each do |provider| %>
+            <h5><%= provider.name %></h5>
+        <% end %>
         
     <%end%>
     <%=
