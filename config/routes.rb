@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations',
   }
+  root to: 'application#home'
   
   devise_scope :user do
     get 'sign_in', to: 'users/sessions#new'
@@ -27,5 +28,5 @@ Rails.application.routes.draw do
   resources :relationships,       only: [:create, :destroy]
   resources :users
   get 'patient', to: 'application#patient'
-  root to: 'application#home'
+  get 'profile', to: 'application#profile'
 end

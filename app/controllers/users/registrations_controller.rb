@@ -31,7 +31,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   # def update
-  #   devise_parameter_sanitizer.permit(:account_update, keys: [:name, :allergies, :email, :vaccines, :medication, :diseases, :medical_history])
+  #   profile_path
   # end
 
   # DELETE /resource
@@ -66,8 +66,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if ! _resource.is_healthcare_provider
       medical_path
     else
-      root_path
+      profile_path
     end
+  end
+
+  def after_update_path_for(resource)
+    profile_path
   end
 
   # The path used after sign up for inactive accounts.
