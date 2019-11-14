@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     get 'edit', to: 'users/registrations#edit'
     get 'sign_up', to: 'users/registrations#new'
     match 'medical' => 'users/registrations#medical', :via => [:get], :as => 'medical' 
+    match 'providers' => 'users/registrations#providers', :via => [:get], :as => 'providers'
     get '/users/sign_out' => 'devise/sessions#destroy'
     get 'forgot_password', to: 'users/passwords#new'
     get 'reset_password', to: 'users/passwords#edit'

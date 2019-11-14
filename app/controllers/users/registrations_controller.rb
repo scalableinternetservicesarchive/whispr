@@ -29,6 +29,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end 
   end
 
+  def providers
+    @users = User.all
+    @user = current_user
+    if @user
+      render :providers
+    else
+      render file: 'public/404', status: 404, formats: [:html]
+    end 
+  end
+
   # PUT /resource
   # def update
   #   profile_path
@@ -57,7 +67,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:affiliated_proviers])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:affiliated_proviers, :email, :password, :name])
     # update_path
   end
 
