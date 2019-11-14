@@ -1,20 +1,20 @@
-<div class="float-left">
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <%= nav_link "Basic Info", profile_path %>
-    </li>
-    <li class="nav-item">
-      <%= nav_link "Medical Info", profile_medical_path %>
-    </li>
-    <li class="nav-item">
-      <%= nav_link "My Providers", profile_providers_path %>
-    </li>
-  </ul>
-</div>
-
 <% if current_user.is_healthcare_provider %>
   <h5>Your Patients:</h5>
+  <%= render 'users/shared/stats' %>
 <% else %>
+  <div class="float-left">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <%= nav_link "Basic Info", profile_path %>
+      </li>
+      <li class="nav-item">
+        <%= nav_link "Medical Info", profile_medical_path %>
+      </li>
+      <li class="nav-item">
+        <%= nav_link "My Providers", profile_providers_path %>
+      </li>
+    </ul>
+  </div>
   <% if current_page?(profile_path) %>
     <div class="container" style="margin-top: 2.5em">
       <div class="card-deck mb-3 text-center">
