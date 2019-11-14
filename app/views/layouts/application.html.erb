@@ -13,7 +13,23 @@
     <%= favicon_link_tag asset_path('favicon.png') %>
   </head>
 
-  <body>
-    <%= yield %>
-  </body>
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column" style="max-width: 100vw; margin: 0.5%; margin-left: 2.0% !important; margin-right: 2.0% !important">
+    <header class="masthead mb-auto" style="margin: 1% !important">
+      <div class="inner">
+        <nav class="nav nav-masthead justify-content-center">
+          <%= nav_link 'Home', root_path %>
+          <% if ! current_user %>
+            <%= nav_link "Sign In", sign_in_path %>
+          <% else %>
+            <%= nav_link "My Profile", [profile_path, profile_medical_path, profile_providers_path] %>
+            <%= nav_link "Sign Out", destroy_user_session_path, nil, "delete" %>
+          <% end %>
+        </nav>
+      </div>
+    </header>
+    <body>
+      <%= stylesheet_link_tag "cover" %>
+      <%= yield %>
+    </body>
+  </div>
 </html>

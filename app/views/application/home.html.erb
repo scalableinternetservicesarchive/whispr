@@ -1,9 +1,22 @@
-<section class="text-center m-5">
-    <h1> whispr </h1>
-    <%=
-        link_to_if(current_user, "Log In", sign_in_path, class: 'btn btn-primary m-5') do
-            link_to('Log In',  sign_in_path, class: 'btn btn-danger m-5')
-        end
-    %>
-    
-</section>
+<h1 class="masthead-brand">Whispr</h1>
+
+
+<div style="margin-bottom: 10em"></div>
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading">Keep your medical info <i>yours</i>. Period.</h1>
+    <p class="lead">Whispr is the one-stop-shop for your medical history. Easily store and add to your pertinent information, and manage the healthcare providers that can see it.</p> 
+    <p class="lead">It's your data: all in one place, all under your control.</p>
+    <p class="lead">
+      <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
+    </p>
+  </main>
+
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <p>© Whispr LLC, 2019</p>
+    </div>
+  </footer>
+</div>

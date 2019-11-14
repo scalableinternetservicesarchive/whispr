@@ -31,3 +31,4 @@ yarn-debug.log*
 
 # AWS files
 whispr.pem
+.elasticbeanstalk/*
