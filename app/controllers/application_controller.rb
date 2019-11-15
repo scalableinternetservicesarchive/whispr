@@ -10,6 +10,15 @@ class ApplicationController < ActionController::Base
     if params[:search]
       @patients = User.where('lower(name) = ?', "#{params[:search]}".downcase)
     end
+
+    @user = current_user
+    @following_providers = @user.followers # Providers who wish to be affiliated with current patient
+    @requesting_providers = [] # Providers who wish to be affiliated with current patient and aren't already
+    @following_providers.each { |provider|
+      if !@user.following.include?(provider)
+        @requesting_providers << provider
+      end
+    }
   end
   
   def patient

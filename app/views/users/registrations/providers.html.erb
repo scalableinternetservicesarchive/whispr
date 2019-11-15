@@ -37,6 +37,7 @@
       <%= submit_tag ("Search") %>
     <% end %>
   </div>
+  <% if @providers %>
     <h5 class="text-center m-4">Search Results:</h5>
     <% @providers.each do |provider| %>
       <div class="col text-center">
@@ -58,6 +59,7 @@
         <% end %>
       </div>
     <% end %>
+  <% end %>
   <div class="row">
   <%= link_to "Back", profile_providers_path, class: "btn btn-dark m-2 w-100", style: "background-color: darkgray; margin-top: 2em !important" %>
   </div>
