@@ -97,6 +97,12 @@ body {
   font-weight: 700;
 }
 
+/*
+ * Forms in class form-container
+ */
+.form-container form {
+  text-align: center;
+}
 
 /*
  * Footer

@@ -3,7 +3,8 @@
     <h2 class="text-center m-5">Edit Affiliated Health Providers</h2>
   </div>
   <!-- For each provider in the database, put its name and a button to follow/unfollow it,
-       i.e. be affiliated with it or cancel affiliation. -->
+       i.e. be affiliated with it or cancel affiliation. Initially, show only the first 5. -->
+  <h3 class="text-center m-5">Top Health Providers:</h3>
   <div class="row">
     <% @users.each do |user| %>
       <% if user.is_healthcare_provider %>
@@ -25,9 +26,38 @@
             <% end %>
           <% end %>
         </div>
-        <% end %>
       <% end %>
+    <% end %>
   </div>
+  <!-- Let patient search for providers. -->
+  <div class="form-container">
+    <h5 class="text-center mt-5">Search for a Provider by Name:</h5>
+    <%= form_tag(providers_path, method: :get) do %>
+      <%= text_field_tag(:search, params[:search]) %>
+      <%= submit_tag ("Search") %>
+    <% end %>
+  </div>
+    <h5 class="text-center m-4">Search Results:</h5>
+    <% @providers.each do |provider| %>
+      <div class="col text-center">
+        <h5><%= provider.name %></h5>
+      </div>
+      <div class="col text-center">
+        <!-- If already affiliated... -->
+        <% if current_user.following.include?(provider) %>
+          <%= form_for(current_user.active_relationships.find_by(followed_id: provider.id),
+                      html: { method: :delete }) do |f| %>
+            <%= f.submit "Unfollow", class: "btn btn-danger" %>
+          <% end %>
+        <!-- Else not yet affiliated... -->
+        <% else %>
+          <%= form_for(current_user.active_relationships.build) do |f| %>
+            <div><%= hidden_field_tag :followed_id, provider.id %></div>
+            <%= f.submit "Follow", class: "btn btn-primary" %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   <div class="row">
   <%= link_to "Back", profile_providers_path, class: "btn btn-dark m-2 w-100", style: "background-color: darkgray; margin-top: 2em !important" %>
   </div>
