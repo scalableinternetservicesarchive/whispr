@@ -33,30 +33,42 @@
   <div class="form-container">
     <h5 class="text-center mt-5">Search for a Provider by Name:</h5>
     <%= form_tag(providers_path, method: :get) do %>
-      <%= text_field_tag(:search, params[:search]) %>
-      <%= submit_tag ("Search") %>
+      <div class="container">
+        <div class="row">
+          <%= text_field_tag :search, params[:search], class: "form-control m-2 w-75 float-left" %>
+          <%= submit_tag ("Search"), class: "btn btn-info h-50", style: "margin-top: 0.5em" %>
+        </div>
+      </div>
     <% end %>
   </div>
   <% if @providers %>
     <h5 class="text-center m-4">Search Results:</h5>
-    <% @providers.each do |provider| %>
-      <div class="col text-center">
-        <h5><%= provider.name %></h5>
+    <% if @providers.empty? %>
+      <h5>Sorry! Looks like we couldn't find what you were looking for.</h5>
+    <% else %>
+      <div class="container">
+      <div class="row">
+      <% @providers.each do |provider| %>
+        <div class="col text-center pr-0" style="max-width: 50%;">
+          <h5><%= provider.name %></h5>
+        </div>
+        <div class="col text-center pl-0">
+          <!-- If already affiliated... -->
+          <% if current_user.following.include?(provider) %>
+            <%= form_for(current_user.active_relationships.find_by(followed_id: provider.id),
+                        html: { method: :delete }) do |f| %>
+              <%= f.submit "Unfollow", class: "btn btn-danger" %>
+            <% end %>
+          <!-- Else not yet affiliated... -->
+          <% else %>
+            <%= form_for(current_user.active_relationships.build) do |f| %>
+              <div><%= hidden_field_tag :followed_id, provider.id %></div>
+              <%= f.submit "Follow", class: "btn btn-primary" %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
       </div>
-      <div class="col text-center">
-        <!-- If already affiliated... -->
-        <% if current_user.following.include?(provider) %>
-          <%= form_for(current_user.active_relationships.find_by(followed_id: provider.id),
-                      html: { method: :delete }) do |f| %>
-            <%= f.submit "Unfollow", class: "btn btn-danger" %>
-          <% end %>
-        <!-- Else not yet affiliated... -->
-        <% else %>
-          <%= form_for(current_user.active_relationships.build) do |f| %>
-            <div><%= hidden_field_tag :followed_id, provider.id %></div>
-            <%= f.submit "Follow", class: "btn btn-primary" %>
-          <% end %>
-        <% end %>
       </div>
     <% end %>
   <% end %>
