@@ -228,6 +228,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activestorage
   bootsnap (= 1.4.4)
   bootstrap (~> 4.0.0)
   byebug (= 11.0.1)
