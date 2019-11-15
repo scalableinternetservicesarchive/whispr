@@ -1,6 +1,18 @@
 <% if current_user.is_healthcare_provider %>
   <h5>Your Patients:</h5>
   <%= render 'users/shared/stats' %>
+  <br>
+  <h5>Search for Patients by Name:</h5>
+  <%= form_tag(profile_path, method: :get) do %>
+    <%= text_field_tag(:search, params[:search]) %>
+    <%= submit_tag ("Search") %>
+  <% end %>
+  <% if @patients %>
+    <h5>Search Results:</h5>
+    <% @patients.each do |patient| %>
+      <%=button_to patient.name, patient_path, method: :get, params: {:id => patient.id}%>
+    <% end %>
+  <% end %>
 <% else %>
   <div class="float-left">
     <ul class="nav nav-tabs">

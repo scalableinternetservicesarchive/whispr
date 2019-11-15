@@ -7,6 +7,9 @@ class ApplicationController < ActionController::Base
   
   def profile
     @users = User.all 
+    if params[:search]
+      @patients = User.where('lower(name) = ?', "#{params[:search]}".downcase)
+    end
   end
   
   def patient
