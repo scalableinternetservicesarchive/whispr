@@ -30,8 +30,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def providers
-    @users = User.all
+    @users = User.all.limit(5) # Just keep the first 5 results
     @user = current_user
+
+    # Respond to search bar request
+    if params[:search]
+      @providers = User.where('lower(name) = ?', "#{params[:search]}".downcase)
+    end
+
     if @user
       render :providers
     else

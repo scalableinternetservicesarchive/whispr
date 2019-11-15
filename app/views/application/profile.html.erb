@@ -1,6 +1,32 @@
 <% if current_user.is_healthcare_provider %>
   <h5>Your Patients:</h5>
   <%= render 'users/shared/stats' %>
+  <br>
+  <h5>Search for Patients by Name:</h5>
+  <%= form_tag(profile_path, method: :get) do %>
+    <%= text_field_tag(:search, params[:search]) %>
+    <%= submit_tag ("Search") %>
+  <% end %>
+  <% if @patients %>
+    <br>
+    <h5>Search Results:</h5>
+    <% @patients.each do |patient| %>
+      <h5><%= patient.name %></h5>
+      <!-- If already affiliated... -->
+      <% if current_user.following.include?(patient) %>
+        <%= form_for(current_user.active_relationships.find_by(followed_id: patient.id),
+                    html: { method: :delete }) do |f| %>
+          <%= f.submit "Cancel Affiliation Request", class: "btn btn-danger" %>
+        <% end %>
+      <!-- Else not yet affiliated... -->
+      <% else %>
+        <%= form_for(current_user.active_relationships.build) do |f| %>
+          <div><%= hidden_field_tag :followed_id, patient.id %></div>
+          <%= f.submit "Request Affiliation", class: "btn btn-primary" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% else %>
   <div class="float-left">
     <ul class="nav nav-tabs">
@@ -45,5 +71,15 @@
       </ul>
     <% end %>
     <%= link_to 'Edit', providers_path, class: "btn btn-lg btn-block btn-primary w-25 float-xl-left", style: "margin-top: 1em !important"%>
+    <% if @requesting_providers.length > 0 %>
+      <h4 style="margin-top: 2em">The following providers wish to be affiliated:</h4>
+      <% @requesting_providers.each do |provider| %>
+        <h5><%= provider.name %></h5>
+        <%= form_for(current_user.active_relationships.build) do |f| %>
+          <div><%= hidden_field_tag :followed_id, provider.id %></div>
+          <%= f.submit "Accept Affiliation", class: "btn btn-primary" %>
+        <% end %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>
