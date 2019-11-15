@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     passwords: 'users/passwords',
   }
   root to: 'application#home'
+  get 'about', to: 'application#about'
   
   devise_scope :user do
     get 'sign_in', to: 'users/sessions#new'

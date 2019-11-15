@@ -32,3 +32,8 @@ yarn-debug.log*
 # AWS files
 whispr.pem
 .elasticbeanstalk/*
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
