@@ -9,7 +9,7 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="whispr.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="roytest.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -64,14 +64,41 @@
 				{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),
 				http_uri:encode(Val) end.">
 				<var name="encoded_authenticity_token" />
-	  </setdynvars>
+	    </setdynvars>
 
       <request subst="true">
         <http
           url='/users'
           version='1.1'
           method='POST'
-          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Bis_healthcare_provider%5D=0&amp;user%5Bname%5D=test%%_test_userid%%&amp;user%5Bemail%5D=test%%_test_userid%%%40gmail.com&amp;user%5Bpassword%5D=hydroflask&amp;user%5Bpassword_confirmation%5D=hydroflask&amp;commit=Sign+up'
+          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Bis_healthcare_provider%5D=0&amp;user%5Bname%5D=roy%%_tsung_userid%%&amp;user%5Bemail%5D=roy%%_tsung_userid%%%40gmail.com&amp;user%5Bpassword%5D=hydroflask&amp;user%5Bpassword_confirmation%5D=hydroflask&amp;commit=Sign+up'
+          content_type='application/x-www-form-urlencoded'>
+        </http>
+      </request>
+
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http url='/medical' version='1.1' method='GET'>
+          <http_header name="Cookie" value="%%_cookie%%" />
+        </http>
+      </request>
+
+      <setdynvars sourcetype="eval"
+				code="fun({Pid,DynVars})->
+				{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),
+				http_uri:encode(Val) end.">
+				<var name="encoded_authenticity_token" />
+	    </setdynvars>
+
+      <!-- wait for up to 2 seconds, user is editing their information -->
+      <thinktime value="2" random="true"></thinktime>
+
+      <request subst="true">
+        <http
+          url='/users'
+          version='1.1'
+          method='POST'
+          contents='_method=put&amp;authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Ballergies%5D=a&amp;user%5Bvaccines%5D=b&amp;user%5Bmedication%5D=c&amp;user%5Bdiseases%5D=d&amp;user%5Bmedical_history%5D=e&amp;user%5Bcurrent_password%5D=hydroflask&amp;commit=Update'
           content_type='application/x-www-form-urlencoded'>
         </http>
       </request>
