@@ -91,7 +91,7 @@
 	    </setdynvars>
 
       <!-- wait for up to 2 seconds, user is editing their information -->
-      <thinktime value="2" random="true"></thinktime>
+      <thinktime value="5" random="true"></thinktime>
 
       <request subst="true">
         <http
@@ -118,7 +118,7 @@
 	    </setdynvars>
 
       <!-- wait for up to 2 seconds, user is editing their information -->
-      <thinktime value="3" random="true"></thinktime>
+      <thinktime value="10" random="true"></thinktime>
 
       <request subst="true">
         <http
