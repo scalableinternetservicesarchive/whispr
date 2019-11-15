@@ -18,6 +18,11 @@ a:hover {
   background-color: #fff;
   border: .05rem solid #fff;
 }
+/* Profile Picture */
+.profile{
+  width: 128;
+  justify-content: center;
+}
 
 
 /*

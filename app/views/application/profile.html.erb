@@ -20,7 +20,20 @@
       <div class="card-deck mb-3 text-center">
         <%= render "users/shared/info_card", title: "Name", body: current_user.name %>
         <%= render "users/shared/info_card", title: "Email", body: current_user.email %>
-        <%= render "users/shared/info_card", title: "Password", body: "******" %>
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header bg-dark border-bottom">
+            <h4 class="my-0 font-weight-normal">Picture</h4>
+          </div>
+          <div class="card-body bg-secondary d-flex flex-column">
+            <div class = 'profile'>
+              <% if current_user.avatar.attached? %>
+                <img src="<%=(url_for(current_user.avatar))%>" width='128'>
+              <% else %>
+                <h1 class="card-title font-weight-bold">Add a Picture!</h1>
+              <%end%>
+            </div>
+          </div>
+        </div>
       </div>
       <%= link_to 'Edit',  edit_path, class: "btn btn-lg btn-block btn-primary mt-auto w-100" %>
     </div>
