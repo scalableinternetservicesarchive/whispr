@@ -103,6 +103,32 @@
         </http>
       </request>
 
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http url='/' version='1.1' method='GET'>
+          <http_header name="Cookie" value="%%_cookie%%" />
+        </http>
+      </request>
+
+      <setdynvars sourcetype="eval"
+				code="fun({Pid,DynVars})->
+				{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),
+				http_uri:encode(Val) end.">
+				<var name="encoded_authenticity_token" />
+	    </setdynvars>
+
+      <!-- wait for up to 2 seconds, user is editing their information -->
+      <thinktime value="3" random="true"></thinktime>
+
+      <request subst="true">
+        <http
+          url='/users'
+          version='1.1'
+          method='POST'
+          contents='_method=delete&amp;authenticity_token=%%_encoded_authenticity_token%%'
+          content_type='application/x-www-form-urlencoded'>
+        </http>
+      </request>
 
     </session>
   </sessions>
