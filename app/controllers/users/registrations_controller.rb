@@ -29,9 +29,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end 
   end
 
+  def providers
+    @users = User.all.limit(5) # Just keep the first 5 results
+    @user = current_user
+
+    # Respond to search bar request
+    if params[:search]
+      @providers = User.where('lower(name) = ?', "#{params[:search]}".downcase)
+    end
+
+    if @user
+      render :providers
+    else
+      render file: 'public/404', status: 404, formats: [:html]
+    end 
+  end
+
   # PUT /resource
   # def update
-  #   devise_parameter_sanitizer.permit(:account_update, keys: [:name, :allergies, :email, :vaccines, :medication, :diseases, :medical_history])
+  #   profile_path
   # end
 
   # DELETE /resource
@@ -57,7 +73,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:affiliated_proviers])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:affiliated_proviers, :email, :password, :name])
     # update_path
   end
 
@@ -66,8 +82,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if ! _resource.is_healthcare_provider
       medical_path
     else
-      root_path
+      profile_path
     end
+  end
+
+  def after_update_path_for(resource)
+    profile_path
   end
 
   # The path used after sign up for inactive accounts.

@@ -1,0 +1,9 @@
+<section class="text-center m-5">
+    <h5><%= @title %></h5>
+    <% @users.each do |patient| %>
+        <%=button_to patient.name, patient_path, method: :get, params: {:id => patient.id}%>
+    <% end %>
+</section>
+<section class="text-center m-5">
+<%= link_to "Back", :profile, class: 'btn btn-primary m-5' %>
+</section>
