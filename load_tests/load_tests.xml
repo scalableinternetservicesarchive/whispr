@@ -2,12 +2,12 @@
 <!DOCTYPE tsung SYSTEM "/usr/local/share/tsung/tsung-1.0.dtd" [] >
 <tsung loglevel="notice">
 
-  <!-- Client side setup -->
+  <!-- Client Side Setup -->
   <clients>
     <client host="localhost" use_controller_vm="true" maxusers='15000'/>
   </clients>
 
-  <!-- Server side setup -->
+  <!-- Server Side Setup -->
   <servers>
     <server host="whispr-pretty-working.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
@@ -26,7 +26,7 @@
   </load>
 
   <options>
-    <!-- Set connection timeout to 2 seconds -->
+    <!-- Set Connection Timeout to 2 Seconds -->
     <option name="global_ack_timeout" value="2000"></option>
 
     <option type="ts_http" name="user_agent">
@@ -40,15 +40,15 @@
         <http url='/' version='1.1' method='GET'></http>
       </request>
 
-      <!-- wait for up to 2 seconds, user is looking at home page -->
+      <!-- Wait for up to 2 seconds, user is looking at home page -->
       <thinktime value="2" random="true"></thinktime>
 
-      <!-- visit the sign up page as a new user would do.  -->
+      <!-- Visit the sign up page as a new user would do.  -->
       <request>
         <http url='/users/sign_up' version='1.1' method='GET'></http>
       </request>
 
-      <!-- wait for up to 2 seconds, user is filling out new user form -->
+      <!-- Wait for up to 2 seconds, user is filling out new user form -->
       <thinktime value="2" random="true"></thinktime>
 
       <!-- go to to sign_up page and pull authenticity_token-->
@@ -76,6 +76,8 @@
         </http>
       </request>
 
+      <!-- _________________________________________________________________ -->
+
       <request>
         <dyn_variable name="authenticity_token"></dyn_variable>
         <http url='/medical' version='1.1' method='GET'>
@@ -90,8 +92,8 @@
 				<var name="encoded_authenticity_token" />
 	    </setdynvars>
 
-      <!-- wait for up to 2 seconds, user is editing their information -->
-      <thinktime value="5" random="true"></thinktime>
+      <!-- Wait for up to 10 seconds, user is editing their information -->
+      <thinktime value="10" random="true"></thinktime>
 
       <request subst="true">
         <http
@@ -99,6 +101,36 @@
           version='1.1'
           method='POST'
           contents='_method=put&amp;authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Ballergies%5D=a&amp;user%5Bvaccines%5D=b&amp;user%5Bmedication%5D=c&amp;user%5Bdiseases%5D=d&amp;user%5Bmedical_history%5D=e&amp;user%5Bcurrent_password%5D=hydroflask&amp;commit=Update'
+          content_type='application/x-www-form-urlencoded'>
+        </http>
+      </request>
+
+      <!-- _________________________________________________________________ -->
+
+      <request>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http url='/providers' version='1.1' method='GET'>
+          <http_header name="Cookie" value="%%_cookie%%" />
+        </http>
+      </request>
+
+      <setdynvars sourcetype="eval"
+				code="fun({Pid,DynVars})->
+				{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),
+				http_uri:encode(Val) end.">
+				<var name="encoded_authenticity_token" />
+	    </setdynvars>
+
+      <!-- wait for up to 1 seconds, user is adding a Provider -->
+      <thinktime value="1" random="true"></thinktime>
+
+      <!-- Assuming User Follows the Hospital Kaiser and ID is 9.-->
+      <request subst="true">
+        <http
+          url='/users'
+          version='1.1'
+          method='POST'
+          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;followed_id=9&amp;commit=Follow'
           content_type='application/x-www-form-urlencoded'>
         </http>
       </request>
@@ -117,8 +149,8 @@
 				<var name="encoded_authenticity_token" />
 	    </setdynvars>
 
-      <!-- wait for up to 2 seconds, user is editing their information -->
-      <thinktime value="10" random="true"></thinktime>
+      <!-- Wait for up to 30 seconds to delete the User Account -->
+      <thinktime value="30" random="true"></thinktime>
 
       <request subst="true">
         <http
