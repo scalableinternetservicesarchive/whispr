@@ -9,7 +9,7 @@
 
   <!-- Server side setup -->
   <servers>
-    <server host="roytest.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="whispr-pretty-working.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -71,7 +71,7 @@
           url='/users'
           version='1.1'
           method='POST'
-          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Bis_healthcare_provider%5D=0&amp;user%5Bname%5D=roy%%_tsung_userid%%&amp;user%5Bemail%5D=roy%%_tsung_userid%%%40gmail.com&amp;user%5Bpassword%5D=hydroflask&amp;user%5Bpassword_confirmation%5D=hydroflask&amp;commit=Sign+up'
+          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Bis_healthcare_provider%5D=0&amp;user%5Bname%5D=test%%_tsung_userid%%&amp;user%5Bemail%5D=test%%_tsung_userid%%%40gmail.com&amp;user%5Bpassword%5D=hydroflask&amp;user%5Bpassword_confirmation%5D=hydroflask&amp;commit=Sign+up'
           content_type='application/x-www-form-urlencoded'>
         </http>
       </request>
