@@ -43,6 +43,7 @@
       </div>
     <% end %>
   <% end %>
+  <%= button_to "Cancel account", registration_path(:user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-lg btn-block btn-danger w-25 float-xl-left", style: "margin-top: 1em !important; margin-left: 0"%>
 <% else %>
   <div class="float-left">
     <ul class="nav nav-tabs">
@@ -65,6 +66,7 @@
         <%= render "users/shared/info_card", title: "Password", body: "******" %>
       </div>
       <%= link_to 'Edit',  edit_path, class: "btn btn-lg btn-block btn-primary mt-auto w-100" %>
+      <%= button_to "Cancel my account", registration_path(:user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-lg btn-block btn-danger w-100 float-xl-left", style: "margin-top: 1em !important"%>
     </div>
   <% elsif current_page?(profile_medical_path) %>
     <div class="container" style="margin-top: 2em !important; margin-left: 0 !important">
@@ -75,7 +77,6 @@
       <%= render "users/shared/info_line", title: "Medical History", body: current_user.medical_history %>
     </div>
     <%= link_to 'Edit', medical_path, class: "btn btn-lg btn-block btn-primary w-25 float-xl-left", style: "margin-top: 1em !important"%>
-
   <% else %>
     <% if current_user.following.empty? %>
       <h4 style="margin-top: 2em">Looks like you haven't elected to follow any healthcare providers yet. Hit the edit button below to change that.</h4>
