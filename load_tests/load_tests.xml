@@ -71,7 +71,7 @@
           url='/users'
           version='1.1'
           method='POST'
-          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Bis_healthcare_provider%5D=0&amp;user%5Bname%5D=test%%_tsung_userid%%&amp;user%5Bemail%5D=test%%_tsung_userid%%%40gmail.com&amp;user%5Bpassword%5D=hydroflask&amp;user%5Bpassword_confirmation%5D=hydroflask&amp;commit=Sign+up'
+          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Bis_healthcare_provider%5D=0&amp;user%5Bname%5D=test%%_tsung_userid%%&amp;user%5Bemail%5D=test%%_tsung_userid%%%40gmail.com&amp;user%5Bpassword%5D=whispr&amp;user%5Bpassword_confirmation%5D=whispr&amp;commit=Sign+up'
           content_type='application/x-www-form-urlencoded'>
         </http>
       </request>
@@ -125,7 +125,7 @@
           url='/users'
           version='1.1'
           method='POST'
-          contents='_method=put&amp;authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Ballergies%5D=%%_random_allergy%%&amp;user%5Bvaccines%5D=%%_random_vaccine%%&amp;user%5Bmedication%5D=%%_random_medication%%&amp;user%5Bdiseases%5D=%%_random_disease%%&amp;user%5Bmedical_history%5D=%%_random_medical_history%%&amp;user%5Bcurrent_password%5D=hydroflask&amp;commit=Update'
+          contents='_method=put&amp;authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Ballergies%5D=%%_random_allergy%%&amp;user%5Bvaccines%5D=%%_random_vaccine%%&amp;user%5Bmedication%5D=%%_random_medication%%&amp;user%5Bdiseases%5D=%%_random_disease%%&amp;user%5Bmedical_history%5D=%%_random_medical_history%%&amp;user%5Bcurrent_password%5D=whispr&amp;commit=Update'
           content_type='application/x-www-form-urlencoded'>
         </http>
       </request>
