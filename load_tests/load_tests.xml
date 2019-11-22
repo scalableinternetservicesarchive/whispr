@@ -9,7 +9,7 @@
 
   <!-- Server Side Setup -->
   <servers>
-    <server host="whispr-delete.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="tsung-king.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -95,12 +95,37 @@
       <!-- Wait for up to 10 seconds, user is editing their information -->
       <thinktime value="10" random="true"></thinktime>
 
+      <!-- Create a random string to make unique medical allergy -->
+      <setdynvars sourcetype="random_string" length="15">
+        <var name="random_allergy" />
+      </setdynvars>
+
+      <!-- Create a random string to make unique medical vaccine -->
+      <setdynvars sourcetype="random_string" length="15">
+        <var name="random_vaccine" />
+      </setdynvars>
+
+      <!-- Create a random string to make unique medical medication -->
+      <setdynvars sourcetype="random_string" length="15">
+        <var name="random_medication" />
+      </setdynvars>
+
+      <!-- Create a random string to make unique medical disease -->
+      <setdynvars sourcetype="random_string" length="15">
+        <var name="random_disease" />
+      </setdynvars>
+
+      <!-- Create a random string to make unique medical history -->
+      <setdynvars sourcetype="random_string" length="15">
+        <var name="random_medical_history" />
+      </setdynvars>
+
       <request subst="true">
         <http
           url='/users'
           version='1.1'
           method='POST'
-          contents='_method=put&amp;authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Ballergies%5D=a&amp;user%5Bvaccines%5D=b&amp;user%5Bmedication%5D=c&amp;user%5Bdiseases%5D=d&amp;user%5Bmedical_history%5D=e&amp;user%5Bcurrent_password%5D=hydroflask&amp;commit=Update'
+          contents='_method=put&amp;authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Ballergies%5D=%%_random_allergy%%&amp;user%5Bvaccines%5D=%%_random_vaccine%%&amp;user%5Bmedication%5D=%%_random_medication%%&amp;user%5Bdiseases%5D=%%_random_disease%%&amp;user%5Bmedical_history%5D=%%_random_medical_history%%&amp;user%5Bcurrent_password%5D=hydroflask&amp;commit=Update'
           content_type='application/x-www-form-urlencoded'>
         </http>
       </request>
