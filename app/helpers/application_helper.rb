@@ -35,4 +35,14 @@ module ApplicationHelper
             link_to(link_text, path, class: class_name)
         end
     end
+
+    def cache_key_for_patient_info
+        "user_#{@user.id}_#{@user.updated_at}"
+    end
+    def cache_key_for_profile_info
+        "user_#{current_user.id}_#{current_user.updated_at}"
+    end
+    def cache_key_for_stats
+        "user_#{current_user.id}_#{current_user.updated_at}_#{current_user.followers.count}"
+    end
 end
