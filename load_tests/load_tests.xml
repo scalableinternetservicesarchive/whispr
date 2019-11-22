@@ -9,7 +9,7 @@
 
   <!-- Server Side Setup -->
   <servers>
-    <server host="whispr-show-and-tell.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="whispr-delete.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -137,7 +137,7 @@
 
       <request>
         <dyn_variable name="authenticity_token"></dyn_variable>
-        <http url='/' version='1.1' method='GET'>
+        <http url='/profile' version='1.1' method='GET'>
           <http_header name="Cookie" value="%%_cookie%%" />
         </http>
       </request>
