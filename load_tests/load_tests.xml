@@ -9,7 +9,7 @@
 
   <!-- Server Side Setup -->
   <servers>
-    <server host="tsung-king.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="roytest1.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -23,6 +23,18 @@
     <arrivalphase phase="3" duration="30" unit="second">
       <users arrivalrate="4" unit="second"></users>
     </arrivalphase>
+    <!-- <arrivalphase phase="4" duration="30" unit="second">
+      <users arrivalrate="8" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="5" duration="30" unit="second">
+      <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="6" duration="30" unit="second">
+      <users arrivalrate="32" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="7" duration="30" unit="second">
+      <users arrivalrate="64" unit="second"></users>
+    </arrivalphase> -->
   </load>
 
   <options>
@@ -35,7 +47,7 @@
   </options>
 
   <sessions>
-    <session name="http-example" probability="100" type="ts_http">
+    <session name="Create Users" probability="100" type="ts_http">
       <request>
         <http url='/' version='1.1' method='GET'></http>
       </request>
@@ -71,7 +83,7 @@
           url='/users'
           version='1.1'
           method='POST'
-          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Bis_healthcare_provider%5D=0&amp;user%5Bname%5D=test%%_tsung_userid%%&amp;user%5Bemail%5D=test%%_tsung_userid%%%40gmail.com&amp;user%5Bpassword%5D=whispr&amp;user%5Bpassword_confirmation%5D=whispr&amp;commit=Sign+up'
+          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;user%5Bis_healthcare_provider%5D=0&amp;user%5Bname%5D=user_test%%_tsung_userid%%&amp;user%5Bemail%5D=user_test%%_tsung_userid%%%40gmail.com&amp;user%5Bpassword%5D=whispr&amp;user%5Bpassword_confirmation%5D=whispr&amp;commit=Sign+up'
           content_type='application/x-www-form-urlencoded'>
         </http>
       </request>
@@ -149,13 +161,17 @@
       <!-- wait for up to 1 seconds, user is adding a Provider -->
       <thinktime value="1" random="true"></thinktime>
 
-      <!-- Assuming User Follows the Hospital Kaiser and ID is 9.-->
+      <!-- Assuming User Follows a Random Provider (ID)-->
+      <setdynvars sourcetype="random_number" start="1" end="200">
+        <var name="random_provider_id" />
+      </setdynvars>
+
       <request subst="true">
         <http
           url='/relationships'
           version='1.1'
           method='POST'
-          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;followed_id=1&amp;commit=Follow'
+          contents='authenticity_token=%%_encoded_authenticity_token%%&amp;followed_id=%%_random_provider_id%%&amp;commit=Follow'
           content_type='application/x-www-form-urlencoded'>
         </http>
       </request>
