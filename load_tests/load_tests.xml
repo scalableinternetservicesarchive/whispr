@@ -190,8 +190,8 @@
 				<var name="encoded_authenticity_token" />
 	    </setdynvars>
 
-      <!-- Wait for up to 30 seconds to delete the User Account -->
-      <thinktime value="30" random="true"></thinktime>
+      <!-- Wait for up to 5 seconds to delete the User Account -->
+      <thinktime value="5" random="true"></thinktime>
 
       <request subst="true">
         <http
