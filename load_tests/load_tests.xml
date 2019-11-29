@@ -162,7 +162,7 @@
       <thinktime value="1" random="true"></thinktime>
 
       <!-- Assuming User Follows a Random Provider (ID)-->
-      <setdynvars sourcetype="random_number" start="1" end="200">
+      <setdynvars sourcetype="random_number" start="10000" end="20000">
         <var name="random_provider_id" />
       </setdynvars>
 
