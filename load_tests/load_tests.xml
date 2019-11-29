@@ -189,6 +189,9 @@
 				http_uri:encode(Val) end.">
 				<var name="encoded_authenticity_token" />
 	    </setdynvars>
+      
+      <!-- Wait for up to 2 seconds. -->
+      <thinktime value="2" random="true"></thinktime>
 
       <!-- User checks the "My Providers" page to see that the affiliation attempt worked.  -->
       <request>
