@@ -9,7 +9,7 @@
 
   <!-- Server Side Setup -->
   <servers>
-    <server host="roytest1.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="mooj-base.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
 
@@ -189,6 +189,11 @@
 				http_uri:encode(Val) end.">
 				<var name="encoded_authenticity_token" />
 	    </setdynvars>
+
+      <!-- User checks the "My Providers" page to see that the affiliation attempt worked.  -->
+      <request>
+        <http url='/profile/providers' version='1.1' method='GET'></http>
+      </request>
 
       <!-- Wait for up to 5 seconds to delete the User Account -->
       <thinktime value="5" random="true"></thinktime>
