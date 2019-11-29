@@ -106,8 +106,6 @@
 				<var name="encoded_authenticity_token" />
 	    </setdynvars>
 
-      <!-- Wait for up to 30 seconds to delete the Provider Account -->
-      <thinktime value="30" random="true"></thinktime>
 
       <request subst="true">
         <http
