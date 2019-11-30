@@ -2,7 +2,7 @@
 <% if current_user.is_healthcare_provider %>
   <h5>Your Patients:</h5>
   <% cache(cache_key_for_stats) do %>
-  <%= render 'users/shared/stats' %><br>
+    <%= render 'users/shared/stats' %><br>
   <%end%>
   <h5>Search for Patients by Name:</h5>
   <%= form_tag(profile_path, method: :get) do %>
@@ -21,6 +21,7 @@
     <% else %>
       <div class="container">
       <% @patients.each do |patient| %>
+        <% cache(patient) do %>
         <div class ="row">
           <div class="col pr-0" style="max-width: 50%;">
             <h5><%= patient.name %></h5>
@@ -41,6 +42,7 @@
             <% end %>
           </div>
         </div>
+        <%end%>
       <% end %>
       </div>
     <% end %>
@@ -63,7 +65,6 @@
   <% if current_page?(profile_path) %>
     <div class="container" style="margin-top: 2.5em">
       <div class="card-deck mb-3 text-center">
-      
         <%= render "users/shared/info_card", title: "Name", body: current_user.name %>
         <%= render "users/shared/info_card", title: "Email", body: current_user.email %>
         <%= render "users/shared/info_card", title: "Password", body: "******" %>
@@ -72,6 +73,7 @@
       <%= button_to "Cancel my account", registration_path(:user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-lg btn-block btn-danger w-100 float-xl-left", style: "margin-top: 1em !important"%>
     </div>
   <% elsif current_page?(profile_medical_path) %>
+  <% cache(cache_key_for_profile_info) do %>
     <div class="container" style="margin-top: 2em !important; margin-left: 0 !important">
       <%= render "users/shared/info_line", title: "Allergies", body: current_user.allergies %>
       <%= render "users/shared/info_line", title: "Vaccines", body: current_user.vaccines %>
@@ -79,6 +81,7 @@
       <%= render "users/shared/info_line", title: "Diseases", body: current_user.diseases %>
       <%= render "users/shared/info_line", title: "Medical History", body: current_user.medical_history %>
     </div>
+  <%end%>
     <%= link_to 'Edit', medical_path, class: "btn btn-lg btn-block btn-primary w-25 float-xl-left", style: "margin-top: 1em !important"%>
   <% else %>
     <% if current_user.following.empty? %>
