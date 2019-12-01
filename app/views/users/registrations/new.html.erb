@@ -1,8 +1,10 @@
+
 <section class="col-8 offset-2 col-sm-6 offset-sm-3">
 <h2 class="text-center m-5">Sign up</h2>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <% cache(resource) do %>
   <%= render "users/shared/error_messages", resource: resource %>
-
+  
   <div class="field">
     <%= f.check_box :is_healthcare_provider %>
     <%= f.label "Select this box to sign up as a healthcare provider." %>
@@ -17,7 +19,7 @@
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true,class: 'form-control m-2'  %>
   </div>
- 
+
   <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
@@ -30,7 +32,7 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, class: 'form-control m-2'  %>
   </div>
-
+  <%end%>
   <div class="actions">
     <%= f.submit "Sign up", class: 'btn btn-primary m-2'  %>
   </div>

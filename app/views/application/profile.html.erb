@@ -64,11 +64,13 @@
   </div>
   <% if current_page?(profile_path) %>
     <div class="container" style="margin-top: 2.5em">
+    <% cache(cache_key_for_profile_info) do %>
       <div class="card-deck mb-3 text-center">
         <%= render "users/shared/info_card", title: "Name", body: current_user.name %>
         <%= render "users/shared/info_card", title: "Email", body: current_user.email %>
         <%= render "users/shared/info_card", title: "Password", body: "******" %>
       </div>
+      <%end%>
       <%= link_to 'Edit',  edit_path, class: "btn btn-lg btn-block btn-primary mt-auto w-100" %>
       <%= button_to "Cancel my account", registration_path(:user), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-lg btn-block btn-danger w-100 float-xl-left", style: "margin-top: 1em !important"%>
     </div>
