@@ -1,4 +1,4 @@
-<% cache(cache_key_for_profile_info) do %>
+
 <% if current_user.is_healthcare_provider %>
   <h5>Your Patients:</h5>
   <% cache(cache_key_for_stats) do %>
@@ -116,4 +116,3 @@
     <% end %>
   <% end %>
 <% end %>
-<%end%>
