@@ -20,7 +20,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def medical
-    @users = User.all
     @user = current_user
     if @user
       render :medical
