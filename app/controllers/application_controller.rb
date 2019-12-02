@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   # TODO(benjibrandt): re-org controllers so this can be used before_action :authenticate_user!
   
   def profile
-    @users = User.all 
     if params[:search]
       @patients = User.where('lower(name) = ?', "#{params[:search]}".downcase)
     end
