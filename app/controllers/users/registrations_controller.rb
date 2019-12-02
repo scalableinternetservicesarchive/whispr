@@ -21,7 +21,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def medical
     @user = current_user
-    if @user
+    
+    if @user && stale?(@user)
       render :medical
     else
       render file: 'public/404', status: 404, formats: [:html]
@@ -37,7 +38,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @providers = User.where('lower(name) = ?', "#{params[:search]}".downcase)
     end
 
-    if @user
+    if @user && stale?(@user)
       render :providers
     else
       render file: 'public/404', status: 404, formats: [:html]

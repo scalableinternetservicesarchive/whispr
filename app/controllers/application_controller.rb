@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
         @requesting_providers << provider
       end
     }
+    fresh_when([@user])
   end
   
   def patient
