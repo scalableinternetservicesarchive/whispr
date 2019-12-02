@@ -18,11 +18,12 @@ class ApplicationController < ActionController::Base
         @requesting_providers << provider
       end
     }
-    fresh_when([@user])
+    fresh_when([current_user, @requesting_providers, @following_providers])
   end
   
   def patient
     @user = User.find(params[:id])
+    fresh_when([@user])
   end
 
   protected
