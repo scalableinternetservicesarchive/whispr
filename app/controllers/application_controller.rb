@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   
   def profile
     if params[:search]
-      @patients = User.where('lower(name) = ?', "#{params[:search]}".downcase)
+      @patients = Rails.cache.fetch("/user/#{params[:search]}", :expires_in => 5.minutes) do User.where('lower(name) = ?', "#{params[:search]}".downcase) end
     end
 
     @user = current_user
@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   end
   
   def patient
-    @user = User.find(params[:id])
+    @user = Rails.cache.fetch("/user/#{params[:id]}", :expires_in => 5.minutes) do User.find(params[:id]) end
   end
 
   protected

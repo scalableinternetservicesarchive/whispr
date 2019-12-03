@@ -22,27 +22,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def medical
     @user = current_user
-    if @user
-      render :medical
-    else
-      render file: 'public/404', status: 404, formats: [:html]
-    end 
   end
 
   def providers
-    @users = User.all.limit(5) # Just keep the first 5 results
+    @users = Rails.cache.fetch("top_5", :expires_in => 5.minutes) do User.all.limit(5) end # Just keep the first 5 results
     @user = current_user
 
     # Respond to search bar request
     if params[:search]
-      @providers = User.where('lower(name) = ?', "#{params[:search]}".downcase)
+      @providers = Rails.cache.fetch("/user/#{params[:search]}", :expires_in => 5.minutes) do User.where('lower(name) = ?', "#{params[:search]}".downcase) end
     end
-
-    if @user
-      render :providers
-    else
-      render file: 'public/404', status: 404, formats: [:html]
-    end 
   end
 
   # PUT /resource

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_02_020525) do
+ActiveRecord::Schema.define(version: 2019_12_02_025749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,7 +39,8 @@ ActiveRecord::Schema.define(version: 2019_12_02_020525) do
     t.string "test"
     t.string "uid"
     t.boolean "is_healthcare_provider"
-    t.text "affiliated_providers", default: "n/a"
+    t.text "affiliated_providers"
     t.text "affiliated_patients"
   end
+
 end
