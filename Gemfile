@@ -32,6 +32,7 @@ end
 
 group :production do
   # any prod-specific gems?
+  gem 'dalli-elasticache'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
