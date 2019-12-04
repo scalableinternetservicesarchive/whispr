@@ -9,7 +9,7 @@
 
   <!-- Server Side Setup -->
   <servers>
-    <server host="mooj-base.uyvfmwwgg2.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="" port="80" type="tcp"></server>
   </servers>
 
 
