@@ -18,7 +18,7 @@ Whispr is a medical profile app - compile all relevant medical history in one pl
 
 ## Testing
 
--  TODO: under construction
+-  Tsung Load Testing
 
 ## Cleanup
 
