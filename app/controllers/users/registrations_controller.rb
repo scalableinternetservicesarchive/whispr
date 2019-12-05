@@ -31,7 +31,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def providers
     @users = User.all.limit(5) # Just keep the first 5 results
-    @user = current_user
+    @user = User.includes(:following).find_by_id(current_user.id)
 
     # Respond to search bar request
     if params[:search]
