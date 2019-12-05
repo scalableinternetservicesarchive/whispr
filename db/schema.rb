@@ -10,43 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_08_224411) do
+ActiveRecord::Schema.define(version: 2019_12_05_080143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "relationships", force: :cascade do |t|
+  create_table "health_records", force: :cascade do |t|
+    t.text "content"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "relationships", id: :serial, force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["followed_id"], name: "index_relationships_on_followed_id"
-    t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
-    t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "name", default: "Your Name Here", null: false
-    t.string "email", default: "", null: false
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 20, default: "Your Name Here", null: false
+    t.string "email", limit: 20, default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "allergies", default: "N/A", null: false
-    t.string "vaccines", default: "N/A", null: false
-    t.string "medication", default: "N/A", null: false
-    t.string "diseases", default: "N/A", null: false
-    t.string "medical_history", default: "N/A", null: false
+    t.string "allergies", limit: 20, default: "N/A", null: false
+    t.string "vaccines", limit: 20, default: "N/A", null: false
+    t.string "medication", limit: 20, default: "N/A", null: false
+    t.string "diseases", limit: 20, default: "N/A", null: false
+    t.string "medical_history", limit: 20, default: "N/A", null: false
     t.string "test"
     t.string "uid"
     t.boolean "is_healthcare_provider"
     t.text "affiliated_providers"
     t.text "affiliated_patients"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["name"], name: "index_users_on_name"
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
 end
